@@ -1,10 +1,10 @@
 export default class Result<T> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  public error: string;
+  public error: T | string;
   private _value: T;
 
-  private constructor(isSuccess: boolean, error?: string, value?: T) {
+  private constructor(isSuccess: boolean, error?: T | string, value?: T) {
     if (isSuccess && error) {
       throw new Error('InvalidOperation: a result cannot be successful and contain an error');
     }
@@ -23,7 +23,7 @@ export default class Result<T> {
 
   public get value(): T {
     if (!this.isSuccess) {
-      throw new Error('Can\'t retrieve the value from a failed result');
+      return this.error as T;
     }
 
     return this._value;
