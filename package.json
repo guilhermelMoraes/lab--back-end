@@ -30,6 +30,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
     "@commitlint/config-conventional": "^16.2.1",
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
@@ -48,5 +49,8 @@
       "npm run lint",
       "npm run test"
     ]
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1"
   }
 }
