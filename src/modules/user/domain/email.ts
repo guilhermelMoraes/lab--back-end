@@ -1,4 +1,5 @@
 import { Either, left, right } from '../../shared/either';
+import Result from '../../shared/result';
 import ValueObject from '../../shared/value-object';
 import InvalidEmailError from './errors/invalid-email';
 
@@ -31,11 +32,11 @@ export default class Email extends ValueObject<EmailProps> {
     };
   }
 
-  public static create(email: string): Either<InvalidEmailError, Email> {
+  public static create(email: string): Either<Result<InvalidEmailError>, Result<Email>> {
     const emailValidation = this.validateEmail(email);
     if (emailValidation.succeeded) {
-      return right(new Email({ email }));
+      return right(Result.ok<Email>(new Email({ email })));
     }
-    return left(new InvalidEmailError(emailValidation.message as string));
+    return left(Result.fail<InvalidEmailError>(new InvalidEmailError(email).message));
   }
 }

@@ -21,7 +21,7 @@ export default class Result<T> {
     Object.freeze(this);
   }
 
-  public get value(): T {
+  public getValue(): T {
     if (!this.isSuccess) {
       return this.error as T;
     }
