@@ -1,42 +1,32 @@
-import { Either, left, right } from '../../shared/either';
 import Result from '../../shared/result';
 import ValueObject from '../../shared/value-object';
 import InvalidEmailError from './errors/invalid-email';
 
-type EmailProps = {
+type EmailProperties = {
   email: string;
-};
-
-type ValidationResponse = {
-  succeeded: boolean;
-  message?: string;
 }
 
-export default class Email extends ValueObject<EmailProps> {
-  private static readonly EMAIL_VALIDATION: RegExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+export default class Email extends ValueObject<EmailProperties> {
+  private static readonly VALID_EMAIL: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  private constructor(properties: EmailProps) {
-    super(properties);
+  private constructor(email: EmailProperties) {
+    super(email);
   }
 
-  private static validateEmail(email: string): ValidationResponse {
-    if (!this.EMAIL_VALIDATION.test(email)) {
-      return {
-        succeeded: false,
-        message: 'Invalid e-mail',
-      };
+  private static validateEmail(email: string) {
+    if (!this.VALID_EMAIL.test(email)) {
+      return Result.fail<Email>('Please, provide an e-mail matching the following pattern: name@domain.com');
     }
 
-    return {
-      succeeded: true,
-    };
+    return Result.ok<Email>();
   }
 
-  public static create(email: string): Either<Result<InvalidEmailError>, Result<Email>> {
-    const emailValidation = this.validateEmail(email);
-    if (emailValidation.succeeded) {
-      return right(Result.ok<Email>(new Email({ email })));
+  public static create(email: string) {
+    const isEmailValid = this.validateEmail(email);
+    if (isEmailValid.isFailure) {
+      return Result.fail<Email>(new InvalidEmailError(isEmailValid.error as string).message);
     }
-    return left(Result.fail<InvalidEmailError>(new InvalidEmailError(email).message));
+
+    return Result.ok<Email>(new Email({ email }));
   }
 }

@@ -1,6 +1,6 @@
 export default class InvalidEmailError extends Error {
-  constructor(email: string) {
-    super(`${email} isn\t a valid e-mail`);
+  constructor(reason: string) {
+    super(reason);
     this.name = 'InvalidEmailError';
   }
 }
