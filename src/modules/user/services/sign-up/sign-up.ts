@@ -1,9 +1,9 @@
-import Result from '../../../shared/result';
+import Result from '../../../shared/domain/result';
 import Email from '../../domain/email';
 import InvalidEmailError from '../../domain/errors/invalid-email';
 import Password from '../../domain/password';
 import UserRepository from '../../repositories/user';
-import SignUpDTO from './sign-up.DTO';
+import SignUpDTO from '../../controllers/sign-up/sign-up.DTO';
 
 type Response = Promise<Result<unknown> | Result<Email> | Result<void>>;
 
@@ -21,14 +21,12 @@ export default class SignUp {
       passwordConfirmation: properties.passwordConfirmation,
     });
 
-    const { email } = emailOrError.value.properties;
-
-    const combinedFields = Result.combine([emailOrError, passwordOrError]);
-
-    if (combinedFields.isFailure) {
-      return Result.fail(combinedFields.error);
+    const combinedProperties = Result.combine([emailOrError, passwordOrError]);
+    if (combinedProperties.isFailure) {
+      return Result.fail(combinedProperties.error);
     }
 
+    const { email } = emailOrError.value.properties;
     const emailAlreadyUsed = await this._userRepository.emailAlreadyUsed(email);
     if (emailAlreadyUsed) {
       return Result.fail<Email>(new InvalidEmailError('E-mail already being used').message);
