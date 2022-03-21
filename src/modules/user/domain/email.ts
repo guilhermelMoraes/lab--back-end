@@ -1,5 +1,5 @@
-import Result from '../../shared/result';
-import ValueObject from '../../shared/value-object';
+import Result from '../../shared/domain/result';
+import ValueObject from '../../shared/domain/value-object';
 import InvalidEmailError from './errors/invalid-email';
 
 type EmailProperties = {
@@ -15,7 +15,7 @@ export default class Email extends ValueObject<EmailProperties> {
 
   private static validateEmail(email: string) {
     if (!this.VALID_EMAIL.test(email)) {
-      return Result.fail<Email>('Please, provide an e-mail matching the following pattern: name@domain.com');
+      return Result.fail<Email>('E-mail does\'t match the following pattern: name@domain.com');
     }
 
     return Result.ok<Email>();

@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 
-import Result from '../../shared/result';
-import ValueObject from '../../shared/value-object';
+import Result from '../../shared/domain/result';
+import ValueObject from '../../shared/domain/value-object';
 import InvalidPasswordError from './errors/invalid-password';
 
 type Hash = {
