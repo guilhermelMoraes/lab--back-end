@@ -1,6 +1,6 @@
 import Controller, { Request, Response } from '../../../shared/http/controller';
 import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
-import SignUp from '../../services/sign-up/sign-up';
+import SignUp from '../../services/sign-up/sign-up.service';
 import SignUpDTO from './sign-up.DTO';
 
 type PayloadValidity = {
@@ -41,7 +41,7 @@ export default class SignUpController extends Controller<SignUpDTO> {
     try {
       const payloadValidation = this.validatePayload(request.payload as SignUpDTO);
 
-      if (payloadValidation.succeeds) {
+      if (!payloadValidation.succeeds) {
         const { message } = new MissingRequiredParameterError(
           payloadValidation.parameter as string,
         );
