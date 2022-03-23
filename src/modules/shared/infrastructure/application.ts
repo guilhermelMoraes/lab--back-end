@@ -1,9 +1,10 @@
+/* eslint-disable import/first */
 import { config } from 'dotenv';
-import express, { Application } from 'express';
-import router from './router';
-import 'reflect-metadata';
 
 config();
+
+import express, { Application } from 'express';
+import router from './router';
 
 const application: Application = express();
 const HTTP_SERVER_PORT: string | number = process.env.HTTP_SERVER_PORT ?? 8000;
