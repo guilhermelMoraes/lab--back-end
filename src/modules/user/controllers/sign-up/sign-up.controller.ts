@@ -27,7 +27,7 @@ export default class SignUpController extends Controller<SignUpDTO> {
       if (missingRequiredParameter) {
         return {
           parameter,
-          succeeds: missingRequiredParameter,
+          succeeds: false,
         };
       }
     }
