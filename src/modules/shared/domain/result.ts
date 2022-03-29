@@ -33,7 +33,7 @@ export default class Result<T> {
     return new Result<U>(true, undefined, value);
   }
 
-  public static fail<U>(error: string): Result<U> {
+  public static fail<U>(error: any): Result<U> {
     return new Result<U>(false, error);
   }
 
