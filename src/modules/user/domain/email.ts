@@ -1,6 +1,6 @@
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import InvalidEmailError from './errors/invalid-email';
+import NonStandardEmailError from './errors/non-standard-email-error';
 
 type EmailProperties = {
   email: string;
@@ -21,10 +21,10 @@ export default class Email extends ValueObject<EmailProperties> {
     return Result.ok<Email>();
   }
 
-  public static create(email: string) {
+  public static create(email: string): Result<Email> {
     const isEmailValid = this.validateEmail(email);
     if (isEmailValid.isFailure) {
-      return Result.fail<Email>(new InvalidEmailError(isEmailValid.error as string).message);
+      return Result.fail<Email>(new NonStandardEmailError(email));
     }
 
     return Result.ok<Email>(new Email({ email }));
