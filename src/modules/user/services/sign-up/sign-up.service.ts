@@ -2,7 +2,7 @@ import Result from '../../../shared/domain/result';
 import Email from '../../domain/email';
 import InvalidEmailError from '../../domain/errors/invalid-email';
 import Password from '../../domain/password';
-import UserRepository from '../../repositories/user';
+import UserRepository from '../../repository/user.repository';
 import SignUpDTO from '../../controllers/sign-up/sign-up.DTO';
 
 type Response = Promise<Result<unknown> | Result<Email> | Result<void>>;
