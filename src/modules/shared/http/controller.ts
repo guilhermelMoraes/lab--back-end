@@ -24,9 +24,16 @@ export default abstract class Controller<DTO> {
     };
   }
 
-  protected static internalServerError(message: string): Response<string> {
+  protected static internalServerError(message: string | undefined = 'Internal server error.Please, try again later'): Response<string> {
     return {
       statusCode: 500,
+      payload: message,
+    };
+  }
+
+  protected static conflict(message: string): Response<string> {
+    return {
+      statusCode: 409,
       payload: message,
     };
   }

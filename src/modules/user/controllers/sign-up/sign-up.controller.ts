@@ -51,13 +51,27 @@ export default class SignUpController extends Controller<SignUpDTO> {
 
       const signUp = await this._signUpService.execute(request.payload as SignUpDTO);
       if (signUp.isFailure) {
-        return SignUpController.badRequest<string>(signUp.value as string);
+        const { name, message } = (signUp.error) as Error;
+
+        switch (name) {
+          case 'NonStandardEmailError':
+            return SignUpController.badRequest<string>(message);
+          case 'PasswordLengthError':
+            return SignUpController.badRequest<string>(message);
+          case 'EmailAlreadyUsedError':
+            return SignUpController.conflict(message);
+          case 'PasswordMatchConfirmationError':
+            return SignUpController.conflict(message);
+          default:
+            // TODO: implement logging strategy
+            return SignUpController.internalServerError();
+        }
       }
 
       return SignUpController.created();
     } catch (error) {
       // TODO: implement logging strategy
-      return SignUpController.internalServerError('Internal server error. Please, try again later.');
+      return SignUpController.internalServerError();
     }
   }
 }
