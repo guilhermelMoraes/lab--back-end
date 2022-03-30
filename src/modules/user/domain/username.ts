@@ -1,6 +1,6 @@
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import InvalidUsernameError from './errors/invalid-username';
+import { InvalidUsernameError } from './errors';
 
 type UsernameProperty = {
   username: string;

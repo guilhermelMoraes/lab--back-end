@@ -2,8 +2,7 @@ import bcrypt from 'bcrypt';
 
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import PasswordLengthError from './errors/password-length-error';
-import PasswordMatchConfirmationError from './errors/password-match-confirmation-error';
+import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 
 type Hash = {
   hash: string;

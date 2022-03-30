@@ -1,6 +1,6 @@
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import NonStandardEmailError from './errors/non-standard-email-error';
+import { NonStandardEmailError } from './errors';
 
 type EmailProperties = {
   email: string;
