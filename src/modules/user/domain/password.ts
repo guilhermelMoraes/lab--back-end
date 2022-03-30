@@ -2,7 +2,8 @@ import bcrypt from 'bcrypt';
 
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import InvalidPasswordError from './errors/invalid-password';
+import PasswordLengthError from './errors/password-length-error';
+import PasswordMatchConfirmationError from './errors/password-match-confirmation-error';
 
 type Hash = {
   hash: string;
@@ -22,15 +23,20 @@ export default class Password extends ValueObject<Hash> {
     super(hash);
   }
 
-  private static validatePassword(passwordCreationProps: PasswordCreationProps) {
+  private static validatePassword(passwordCreationProps: PasswordCreationProps):
+    Result<Error> | Result<Password> {
     const { password, passwordConfirmation } = passwordCreationProps;
 
     if (password !== passwordConfirmation) {
-      return Result.fail<Password>('Password and confirmation does\'t match');
+      return Result.fail<PasswordMatchConfirmationError>(
+        new PasswordMatchConfirmationError(password, passwordConfirmation),
+      );
     }
 
     if (password.length < this.MIN_PASSWORD_LENGTH || password.length > this.MAX_PASSWORD_LENGTH) {
-      return Result.fail<Password>('Password must have at least eight characters and max thirty characters');
+      return Result.fail<PasswordLengthError>(
+        new PasswordLengthError(password.length),
+      );
     }
 
     return Result.ok<Password>();
@@ -54,21 +60,17 @@ export default class Password extends ValueObject<Hash> {
     }
   }
 
-  public static async create(passwordCreationProps: PasswordCreationProps) {
+  public static async create(passwordCreationProps: PasswordCreationProps):
+    Promise<Result<Password> | Result<Error>> {
     const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
     const isPasswordValid = this.validatePassword({ password, passwordConfirmation });
     if (isPasswordValid.isFailure) {
-      return Result
-        .fail<Password>(
-          new InvalidPasswordError(isPasswordValid.error as string).message,
-        );
+      return Result.fail<Error>(isPasswordValid.error);
     }
 
     const hashOrError = await this.hashPassword(passwordCreationProps.password);
     if (hashOrError.isFailure) {
-      return Result.fail<Password>(
-        new InvalidPasswordError(hashOrError.error as string).message,
-      );
+      return Result.fail<Error>(hashOrError.error);
     }
 
     const { value: hash } = hashOrError;

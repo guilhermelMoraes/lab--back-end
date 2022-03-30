@@ -13,18 +13,18 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  private static validateEmail(email: string) {
+  private static validateEmail(email: string): Result<Email> {
     if (!this.VALID_EMAIL.test(email)) {
-      return Result.fail<Email>('E-mail does\'t match the following pattern: name@domain.com');
+      return Result.fail<Email>('E-mail');
     }
 
     return Result.ok<Email>();
   }
 
-  public static create(email: string): Result<Email> {
+  public static create(email: string): Result<Email> | Result<NonStandardEmailError> {
     const isEmailValid = this.validateEmail(email);
     if (isEmailValid.isFailure) {
-      return Result.fail<Email>(new NonStandardEmailError(email));
+      return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
     }
 
     return Result.ok<Email>(new Email({ email }));
