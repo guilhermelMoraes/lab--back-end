@@ -6,7 +6,8 @@
     "prepare": "husky install",
     "lint": "eslint --fix ./src/**/*.ts",
     "test": "jest - --findRelatedTests",
-    "test:dev": "jest --watch",
+    "test:ci": "jest",
+    "test:dev": "jest --watch --verbose",
     "start:dev": "nodemon src/modules/shared/infrastructure/application.ts"
   },
   "repository": {
