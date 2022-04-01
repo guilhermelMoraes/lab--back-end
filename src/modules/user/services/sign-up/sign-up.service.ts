@@ -38,7 +38,12 @@ export default class SignUp {
     const { username } = (usernameOrError.value as Username).properties;
     const { hash } = (passwordOrError.value as Password).properties;
 
-    this._userRepository.create({ email, hash, username });
+    this._userRepository.create({
+      user_id: '',
+      email,
+      hash,
+      username,
+    });
 
     return Result.ok<void>();
   }
