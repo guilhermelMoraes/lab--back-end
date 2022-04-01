@@ -1,7 +1,6 @@
 import Result from '../../shared/domain/result';
 import ValueObject from '../../shared/domain/value-object';
-import { InvalidUsernameError } from './errors/invalid-username';
-import { UsernameLengthError } from './errors/username-length-error';
+import { UsernameLengthError } from './errors';
 
 type UsernameProperty = {
   username: string;
@@ -16,7 +15,7 @@ export default class Username extends ValueObject<UsernameProperty> {
   }
 
   private static validateUsername(username: string):
-    Result<InvalidUsernameError> | Result<Username> {
+    Result<UsernameLengthError> | Result<Username> {
     const trimmedUsername: number = username.trim().length;
 
     if (trimmedUsername < this._MIN_LENGTH || trimmedUsername > this._MAX_LENGTH) {
