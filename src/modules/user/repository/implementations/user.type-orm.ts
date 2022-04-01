@@ -1,17 +1,21 @@
 import { DataSource, Repository } from 'typeorm';
-import User from '../../infrastructure/database/user.model';
+import User from '../../domain/user';
+import UserModel from '../../infrastructure/database/user.model';
 import UserRepository from '../user.repository';
 
 export default class UserTypeOrmRepository implements UserRepository {
-  private readonly _typeOrmRepo: Repository<User>;
+  private readonly _typeOrmUserRepo: Repository<UserModel>;
 
   constructor(dataSource: DataSource) {
-    this._typeOrmRepo = dataSource.getRepository(User);
+    this._typeOrmUserRepo = dataSource.getRepository(UserModel);
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  public async create(user: User): Promise<void> {
+    await this._typeOrmUserRepo.save(user);
+  }
+
   public async emailAlreadyUsed(email: string): Promise<boolean> {
-    const userOrNull = await this._typeOrmRepo.findOneBy({ email });
+    const userOrNull = await this._typeOrmUserRepo.findOneBy({ email });
     return !!userOrNull;
   }
 }
