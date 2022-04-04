@@ -1,8 +1,8 @@
-import User from '../domain/user';
+import { UserProperties } from '../domain/user';
 
 interface UserRepository {
   emailAlreadyUsed(email: string): Promise<boolean>;
-  create(user: User): Promise<void>;
+  create(user: UserProperties): Promise<void>;
 }
 
 export default UserRepository;

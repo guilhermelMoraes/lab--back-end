@@ -1,5 +1,5 @@
 import { DataSource, Repository } from 'typeorm';
-import User from '../../domain/user';
+import { UserProperties } from '../../domain/user';
 import UserModel from '../../infrastructure/database/user.model';
 import UserRepository from '../user.repository';
 
@@ -10,7 +10,7 @@ export default class UserTypeOrmRepository implements UserRepository {
     this._typeOrmUserRepo = dataSource.getRepository(UserModel);
   }
 
-  public async create(user: User): Promise<void> {
+  public async create(user: UserProperties): Promise<void> {
     await this._typeOrmUserRepo.save(user);
   }
 
