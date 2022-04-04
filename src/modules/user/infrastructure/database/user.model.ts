@@ -11,8 +11,10 @@ export default class User {
   @PrimaryGeneratedColumn()
   public id!: number;
 
-  @Column({ type: 'uuid', nullable: false, unique: true })
-  public user_id!: string;
+  @Column({
+    type: 'uuid', nullable: false, unique: true, name: 'user_id',
+  })
+  public userId!: string;
 
   @Column({ nullable: false, unique: true, length: 100 })
   public email!: string;
@@ -23,9 +25,9 @@ export default class User {
   @Column({ nullable: false, length: 100 })
   public hash!: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   public createdAt!: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   public updatedAt!: Date;
 }
