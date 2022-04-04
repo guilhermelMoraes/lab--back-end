@@ -68,7 +68,7 @@ export default class SignUpController extends Controller<SignUpDTO> {
         }
       }
 
-      return SignUpController.created();
+      return SignUpController.created('User successfully created');
     } catch (error) {
       // TODO: implement logging strategy
       return SignUpController.internalServerError();
