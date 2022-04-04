@@ -8,7 +8,8 @@
     "test": "jest - --findRelatedTests",
     "test:ci": "jest",
     "test:dev": "jest --watch --verbose",
-    "start:dev": "nodemon src/modules/shared/infrastructure/application.ts"
+    "start:dev": "nodemon src/modules/shared/infrastructure/application.ts",
+    "compile": "rm -rf ./dist && tsc"
   },
   "repository": {
     "type": "git",
