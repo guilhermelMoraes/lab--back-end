@@ -5,6 +5,8 @@ import UserRepository from '../../repository/user.repository';
 import SignUpDTO from '../../controllers/sign-up/sign-up.DTO';
 import Username from '../../domain/username';
 import { EmailAlreadyUsedError } from '../../domain/errors';
+import User from '../../domain/user';
+import UserMapper from '../../user-mapper';
 
 type Response = Promise<Result<unknown> | Result<Email> | Result<void>>;
 
@@ -35,15 +37,15 @@ export default class SignUp {
       return Result.fail<EmailAlreadyUsedError>(new EmailAlreadyUsedError(email));
     }
 
-    const { username } = (usernameOrError.value as Username).properties;
-    const { hash } = (passwordOrError.value as Password).properties;
+    const user = UserMapper.toDatabase(
+      new User(
+        emailOrError.value as Email,
+        usernameOrError.value as Username,
+        passwordOrError.value as Password,
+      ),
+    );
 
-    this._userRepository.create({
-      user_id: '',
-      email,
-      hash,
-      username,
-    });
+    this._userRepository.create(user);
 
     return Result.ok<void>();
   }
