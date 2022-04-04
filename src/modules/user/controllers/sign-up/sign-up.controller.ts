@@ -58,6 +58,8 @@ export default class SignUpController extends Controller<SignUpDTO> {
             return SignUpController.badRequest<string>(message);
           case 'PasswordLengthError':
             return SignUpController.badRequest<string>(message);
+          case 'UsernameLengthError':
+            return SignUpController.badRequest<string>(message);
           case 'EmailAlreadyUsedError':
             return SignUpController.conflict(message);
           case 'PasswordMatchConfirmationError':
