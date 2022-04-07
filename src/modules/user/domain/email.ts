@@ -15,7 +15,7 @@ export default class Email extends ValueObject<EmailProperties> {
 
   private static validateEmail(email: string): Result<Email> {
     if (!this.VALID_EMAIL.test(email)) {
-      return Result.fail<Email>('E-mail');
+      return Result.fail<Email>(`The invalid e-mail was ${email}`);
     }
 
     return Result.ok<Email>();
