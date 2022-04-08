@@ -46,6 +46,12 @@
       }
     ],
     "no-useless-constructor": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "@typescript-eslint/explicit-member-accessibility": [2, {
+      "accessibility": "explicit",
+      "overrides": {
+        "constructors": "no-public"
+      }
+    }]
   }
 }
