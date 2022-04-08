@@ -1,4 +1,6 @@
+/* eslint-disable no-use-before-define */
 import winston, { format, Logger, transports as Transports } from 'winston';
+import AppLogger from '../logger';
 
 const { ENVIRONMENT } = process.env;
 
@@ -48,4 +50,29 @@ if (ENVIRONMENT !== 'PRODUCTION') {
     format: messageFormat,
   });
   logger.add(consoleLogger);
+}
+
+export default class WinstonLogger implements AppLogger {
+  private readonly _logger: Logger;
+  private static instance: WinstonLogger;
+
+  private constructor(winstonLogger: Logger) {
+    this._logger = winstonLogger;
+  }
+
+  public error(message: string): void {
+    this._logger.error(message);
+  }
+
+  public info(message: string): void {
+    this._logger.info(message);
+  }
+
+  public static getInstance(): WinstonLogger {
+    if (!WinstonLogger.instance) {
+      WinstonLogger.instance = new WinstonLogger(logger);
+    }
+
+    return WinstonLogger.instance;
+  }
 }
