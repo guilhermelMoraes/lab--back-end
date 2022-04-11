@@ -40,7 +40,7 @@ describe('Controller: sign-up', () => {
 
   it('Should return an internal server error if the service throws', async () => {
     const signUpServiceThrowing = jest.spyOn(signUpService, 'execute').mockRejectedValueOnce(
-      new Error('Fake error from '),
+      new Error('Fake error from mock'),
     );
 
     const response = await sut.handle(fakeRequest);
