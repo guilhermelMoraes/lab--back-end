@@ -31,7 +31,7 @@ export default class Username extends ValueObject<UsernameProperty> {
     const usernameIsValid = this.validateUsername(username);
 
     if (usernameIsValid.isFailure) {
-      return Result.fail<UsernameLengthError>(usernameIsValid.error);
+      return Result.fail<UsernameLengthError>(usernameIsValid.error as Error);
     }
 
     return Result.ok<Username>(new Username({ username }));

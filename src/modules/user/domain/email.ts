@@ -13,9 +13,9 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  private static validateEmail(email: string): Result<Email> {
+  private static validateEmail(email: string): Result<Email> | Result<NonStandardEmailError> {
     if (!this.VALID_EMAIL.test(email)) {
-      return Result.fail<Email>(`The invalid e-mail was ${email}`);
+      return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
     }
 
     return Result.ok<Email>();
@@ -24,7 +24,7 @@ export default class Email extends ValueObject<EmailProperties> {
   public static create(email: string): Result<Email> | Result<NonStandardEmailError> {
     const isEmailValid = this.validateEmail(email);
     if (isEmailValid.isFailure) {
-      return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
+      return Result.fail<NonStandardEmailError>(isEmailValid.error as Error);
     }
 
     return Result.ok<Email>(new Email({ email }));
