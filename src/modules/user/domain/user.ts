@@ -11,6 +11,7 @@ export type UserProperties = {
   hash: string;
 }
 
+// FIXME: this is an anemic model. It shouldn't.
 export default class User {
   private readonly _userId: string;
   private readonly _email: Email;
