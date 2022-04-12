@@ -13,7 +13,7 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  private static validateEmail(email: string): Result<Email> | Result<NonStandardEmailError> {
+  public static validateEmail(email: string): Result<Email> | Result<NonStandardEmailError> {
     if (!this.VALID_EMAIL.test(email)) {
       return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
     }
