@@ -27,7 +27,7 @@ export default class SignUp {
 
     const combinedProperties = Result.combine([emailOrError, passwordOrError, usernameOrError]);
     if (combinedProperties.isFailure) {
-      return Result.fail(combinedProperties.error);
+      return Result.fail(combinedProperties.error as Error);
     }
 
     const { email } = (emailOrError.value as Email).properties;

@@ -1,10 +1,10 @@
 export default class Result<T> {
-  public isSuccess: boolean;
-  public isFailure: boolean;
-  public error: T | string;
-  private _value: T;
+  public readonly isSuccess: boolean;
+  public readonly isFailure: boolean;
+  public readonly error?: Error;
+  private readonly _value?: T;
 
-  private constructor(isSuccess: boolean, error?: T | string, value?: T) {
+  private constructor(isSuccess: boolean, error?: Error, value?: T) {
     if (isSuccess && error) {
       throw new Error('InvalidOperation: a result cannot be successful and contain an error');
     }
@@ -15,25 +15,25 @@ export default class Result<T> {
 
     this.isSuccess = isSuccess;
     this.isFailure = !isSuccess;
-    this.error = error as any;
-    this._value = value as any;
+    this.error = error;
+    this._value = value;
 
     Object.freeze(this);
   }
 
   public get value(): T {
     if (!this.isSuccess) {
-      return this.error as T;
+      return this.error as unknown as T;
     }
 
-    return this._value;
+    return this._value as T;
   }
 
   public static ok<U>(value?: U): Result<U> {
     return new Result<U>(true, undefined, value);
   }
 
-  public static fail<U>(error: any): Result<U> {
+  public static fail<U>(error: Error): Result<U> {
     return new Result<U>(false, error);
   }
 

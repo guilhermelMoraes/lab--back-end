@@ -55,7 +55,7 @@ export default class Password extends ValueObject<Hash> {
       return Result.ok<string>(hash);
     } catch (error) {
       // TODO: implement logging strategy
-      return Result.fail<string>('Error while hashing the password');
+      return Result.fail<Error>(error as Error);
     }
   }
 
@@ -64,15 +64,15 @@ export default class Password extends ValueObject<Hash> {
     const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
     const isPasswordValid = this.validatePassword({ password, passwordConfirmation });
     if (isPasswordValid.isFailure) {
-      return Result.fail<Error>(isPasswordValid.error);
+      return Result.fail<Error>(isPasswordValid.error as Error);
     }
 
     const hashOrError = await this.hashPassword(passwordCreationProps.password);
     if (hashOrError.isFailure) {
-      return Result.fail<Error>(hashOrError.error);
+      return Result.fail<Error>(hashOrError.error as Error);
     }
 
-    const { value: hash } = hashOrError;
+    const { value: hash } = hashOrError as Result<string>;
 
     return Result.ok<Password>(new Password({ hash }));
   }
