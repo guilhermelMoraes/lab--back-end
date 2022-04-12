@@ -53,9 +53,12 @@ export default class Password extends ValueObject<Hash> {
     try {
       const hash = await bcrypt.hash(rawPassword, this.SALT_ROUNDS);
       return Result.ok<string>(hash);
-    } catch (error) {
+    } catch (bcryptError) {
       // TODO: implement logging strategy
-      return Result.fail<Error>(error as Error);
+      const error = (bcryptError as Error);
+      const errorMessage = `${error.message} | Attempt to use ${rawPassword} as a password`;
+      error.message = errorMessage;
+      return Result.fail<Error>(error);
     }
   }
 
