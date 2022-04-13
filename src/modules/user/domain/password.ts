@@ -62,6 +62,16 @@ export default class Password extends ValueObject<Hash> {
     }
   }
 
+  public static async compare(rawPassword: string, hashedPassword: string):
+    Promise<Result<boolean> | Result<Error>> {
+    try {
+      const passwordMatch: boolean = await bcrypt.compare(rawPassword, hashedPassword);
+      return Result.ok<boolean>(passwordMatch);
+    } catch (bcryptError) {
+      return Result.fail<Error>(bcryptError as Error);
+    }
+  }
+
   public static async create(passwordCreationProps: PasswordCreationProps):
     Promise<Result<Password> | Result<Error>> {
     const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
