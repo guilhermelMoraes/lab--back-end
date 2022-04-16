@@ -1,7 +1,9 @@
 import Result from '../../../shared/domain/result';
 import Email from '../../domain/email';
+import Password from '../../domain/password';
+import { UserProperties } from '../../domain/user';
 import UserRepository from '../../repository/user.repository';
-import { UserDoesntExistError } from './errors/user-doesnt-exist-error';
+import { UserOrPasswordWrongError } from './errors';
 
 type LoginDTO = {
   email: string;
@@ -26,7 +28,18 @@ export default class Login {
     const userProps = await this._userRepository.findUserByEmail(email);
 
     if (!userProps) {
-      return Result.fail<UserDoesntExistError>(new UserDoesntExistError(email));
+      return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
+    }
+
+    const { hash } = userProps as UserProperties;
+    const passwordMatch = await Password.compare(loginDTO.password, hash);
+
+    if (passwordMatch.isFailure) {
+      return Result.fail<Error>(passwordMatch.error as Error);
+    }
+
+    if (passwordMatch.value === false) {
+      return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
     }
 
     return Result.ok();
