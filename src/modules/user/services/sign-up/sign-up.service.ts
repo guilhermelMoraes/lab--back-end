@@ -4,7 +4,7 @@ import Password from '../../domain/password';
 import UserRepository from '../../repository/user.repository';
 import SignUpDTO from './sign-up.DTO';
 import Username from '../../domain/username';
-import { EmailAlreadyUsedError } from '../../domain/errors';
+import { EmailAlreadyUsedError } from './errors';
 import User from '../../domain/user';
 import UserMapper from '../../user-mapper';
 
