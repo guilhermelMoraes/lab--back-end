@@ -4,11 +4,7 @@ import Password from '../../domain/password';
 import { UserProperties } from '../../domain/user';
 import UserRepository from '../../repository/user.repository';
 import { UserOrPasswordWrongError } from './errors';
-
-type LoginDTO = {
-  email: string;
-  password: string;
-};
+import LoginDTO from './login.DTO';
 
 export default class Login {
   private readonly _userRepository: UserRepository;
