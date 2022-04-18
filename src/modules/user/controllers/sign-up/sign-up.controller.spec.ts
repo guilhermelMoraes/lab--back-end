@@ -2,7 +2,7 @@
 import SignUp from '../../services/sign-up/sign-up.service';
 import SignUpController from './sign-up.controller';
 import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
-import SignUpDTO from './sign-up.DTO';
+import SignUpDTO from '../../services/sign-up/sign-up.DTO';
 import { Request } from '../../../shared/http/controller';
 
 const dummyUser: SignUpDTO = {

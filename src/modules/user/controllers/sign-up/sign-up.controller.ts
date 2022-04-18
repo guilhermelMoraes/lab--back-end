@@ -1,7 +1,7 @@
 import Controller, { Request, Response } from '../../../shared/http/controller';
 import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
 import SignUp from '../../services/sign-up/sign-up.service';
-import SignUpDTO from './sign-up.DTO';
+import SignUpDTO from '../../services/sign-up/sign-up.DTO';
 
 type PayloadValidity = {
   parameter?: string;
