@@ -1,4 +1,4 @@
-import SignUpDTO from '../../controllers/sign-up/sign-up.DTO';
+import SignUpDTO from './sign-up.DTO';
 import { EmailAlreadyUsedError, NonStandardEmailError } from '../../domain/errors';
 import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
 import SignUpService from './sign-up.service';
