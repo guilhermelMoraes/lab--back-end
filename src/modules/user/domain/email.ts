@@ -13,12 +13,12 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  private static validateEmail(email: string): Result<Email> | Result<NonStandardEmailError> {
+  public static validateEmail(email: string): Result<string> | Result<NonStandardEmailError> {
     if (!this.VALID_EMAIL.test(email)) {
       return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
     }
 
-    return Result.ok<Email>();
+    return Result.ok<string>(email);
   }
 
   public static create(email: string): Result<Email> | Result<NonStandardEmailError> {

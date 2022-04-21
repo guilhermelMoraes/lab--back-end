@@ -14,4 +14,10 @@ export default class UserInMemoryRepository implements UserRepository {
   public async create(user: UserProperties): Promise<void> {
     this._users.push(user);
   }
+
+  public async findUserByEmail(email: string): Promise<UserProperties | null> {
+    const predicate = ({ email: userEmail }: UserProperties): boolean => userEmail === email;
+    const user = this._users.filter(predicate)[0];
+    return user;
+  }
 }
