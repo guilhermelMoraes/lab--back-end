@@ -1,3 +1,4 @@
+import JwtClient from '../../../../gateways/jwt';
 import Result from '../../../shared/domain/result';
 import Email from '../../domain/email';
 import Password from '../../domain/password';
@@ -6,14 +7,18 @@ import UserRepository from '../../repository/user.repository';
 import { UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';
 
+type UserProps = Omit<UserProperties, 'hash'>;
+
 export default class Login {
   private readonly _userRepository: UserRepository;
+  private readonly _jwt: JwtClient;
 
-  constructor(userRepository: UserRepository) {
+  constructor(userRepository: UserRepository, jwt: JwtClient) {
     this._userRepository = userRepository;
+    this._jwt = jwt;
   }
 
-  public async execute(loginDTO: LoginDTO) {
+  public async execute(loginDTO: LoginDTO): Promise<Result<string> | Result<Error>> {
     const emailOrError = Email.validateEmail(loginDTO.email);
 
     if (emailOrError.isFailure) {
@@ -27,7 +32,7 @@ export default class Login {
       return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
     }
 
-    const { hash } = userProps as UserProperties;
+    const { hash, userId, username } = userProps as UserProperties;
     const passwordMatch = await Password.compare(loginDTO.password, hash);
 
     if (passwordMatch.isFailure) {
@@ -38,6 +43,11 @@ export default class Login {
       return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
     }
 
-    return Result.ok();
+    const tokenOrError = await this._jwt.sign<UserProps>({ email, userId, username });
+    if (tokenOrError.isSuccess) {
+      return Result.ok<string>(tokenOrError.value as string);
+    }
+
+    return Result.fail<Error>(tokenOrError.error as Error);
   }
 }
