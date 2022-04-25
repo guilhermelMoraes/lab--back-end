@@ -1,12 +1,7 @@
-import Controller, { Request, Response } from '../../../shared/http/controller';
+import Controller, { Request, Response, validatePayload } from '../../../shared/http/controller';
 import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
 import SignUp from '../../services/sign-up/sign-up.service';
 import SignUpDTO from '../../services/sign-up/sign-up.DTO';
-
-type PayloadValidity = {
-  parameter?: string;
-  succeeds: boolean;
-}
 
 export default class SignUpController extends Controller<SignUpDTO> {
   private readonly _signUpService: SignUp;
@@ -17,29 +12,11 @@ export default class SignUpController extends Controller<SignUpDTO> {
     this._signUpService = signUpService;
   }
 
-  private validatePayload(payload: SignUpDTO): PayloadValidity {
-    for (const parameter of this.requiredParameters) {
-      const missingRequiredParameter = !Object
-        .prototype
-        .hasOwnProperty
-        .call(payload, parameter);
-
-      if (missingRequiredParameter) {
-        return {
-          parameter,
-          succeeds: false,
-        };
-      }
-    }
-
-    return {
-      succeeds: true,
-    };
-  }
-
   public async handle<T extends SignUpDTO>(request: Request<T>): Promise<Response<string>> {
     try {
-      const payloadValidation = this.validatePayload(request.payload as SignUpDTO);
+      const payloadValidation = validatePayload<SignUpDTO>(
+        request.payload as SignUpDTO, this.requiredParameters,
+      );
 
       if (!payloadValidation.succeeds) {
         const { message } = new MissingRequiredParameterError(
