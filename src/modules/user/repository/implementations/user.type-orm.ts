@@ -14,11 +14,6 @@ export default class UserTypeOrmRepository implements UserRepository {
     await this._typeOrmUserRepo.save(user);
   }
 
-  public async emailAlreadyUsed(email: string): Promise<boolean> {
-    const userOrNull = await this._typeOrmUserRepo.findOneBy({ email });
-    return !!userOrNull;
-  }
-
   public async findUserByEmail(email: string): Promise<UserProperties | null> {
     const user = await this._typeOrmUserRepo.findOneBy({
       email,

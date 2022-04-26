@@ -7,10 +7,6 @@ import UserRepository from '../user.repository';
 export default class UserInMemoryRepository implements UserRepository {
   private _users: UserProperties[] = [];
 
-  public async emailAlreadyUsed(email: string): Promise<boolean> {
-    return Promise.resolve(this._users.some((user) => user.email === email));
-  }
-
   public async create(user: UserProperties): Promise<void> {
     this._users.push(user);
   }
@@ -18,6 +14,6 @@ export default class UserInMemoryRepository implements UserRepository {
   public async findUserByEmail(email: string): Promise<UserProperties | null> {
     const predicate = ({ email: userEmail }: UserProperties): boolean => userEmail === email;
     const user = this._users.filter(predicate)[0];
-    return user;
+    return user === undefined ? null : user;
   }
 }

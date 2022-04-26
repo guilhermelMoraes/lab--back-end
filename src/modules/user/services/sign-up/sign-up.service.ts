@@ -32,8 +32,8 @@ export default class SignUp {
 
     const { email } = (emailOrError.value as Email).properties;
 
-    const emailAlreadyUsed = await this._userRepository.emailAlreadyUsed(email);
-    if (emailAlreadyUsed) {
+    const userExists = await this._userRepository.findUserByEmail(email);
+    if (userExists) {
       return Result.fail<EmailAlreadyUsedError>(new EmailAlreadyUsedError(email));
     }
 
