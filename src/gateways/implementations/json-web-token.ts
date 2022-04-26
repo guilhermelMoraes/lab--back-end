@@ -4,33 +4,32 @@ import JwtClient from '../jwt';
 
 type JwtPayload = Buffer | string | object;
 
-export default class JwtGateway implements JwtClient {
-  private static payloadValidation(payload: any): payload is JwtPayload {
-    if (typeof payload === 'string') return true;
+function generateToken(payload: JwtPayload): Promise<string> {
+  return new Promise(
+    (resolve: (value: string) => void, reject: (reason: Error) => void): void => {
+      jwt.sign(payload, 'secret', {}, (jwtError: Error | null, token?: string): void => {
+        if (jwtError) reject(jwtError);
+        resolve(token as string);
+      });
+    },
+  );
+}
 
-    if (Buffer.isBuffer(payload)) return true;
+function payloadValidation(payload: any): payload is JwtPayload {
+  if (typeof payload === 'string') return true;
 
-    if (Object.prototype.toString.call(payload) === '[object Object]') return true;
+  if (Buffer.isBuffer(payload)) return true;
 
-    return false;
-  }
+  if (Object.prototype.toString.call(payload) === '[object Object]') return true;
 
-  private static generateToken(payload: JwtPayload): Promise<string> {
-    return new Promise(
-      (resolve: (value: string) => void, reject: (reason: Error) => void): void => {
-        jwt.sign(payload, 'secret', {}, (jwtError: Error | null, token?: string): void => {
-          if (jwtError) reject(jwtError);
-          resolve(token as string);
-        });
-      },
-    );
-  }
+  return false;
+}
 
-  // eslint-disable-next-line class-methods-use-this
-  public async sign<T>(payload: T): Promise<Result<string | Error>> {
-    if (JwtGateway.payloadValidation(payload)) {
+const jwtGateway: JwtClient = {
+  async sign<T>(payload: T): Promise<Result<string | Error>> {
+    if (payloadValidation(payload)) {
       try {
-        const token = await JwtGateway.generateToken(payload);
+        const token = await generateToken(payload);
         return Result.ok<string>(token);
       } catch (jwtError) {
         return Result.fail<Error>(jwtError as Error);
@@ -38,5 +37,7 @@ export default class JwtGateway implements JwtClient {
     }
 
     return Result.fail<Error>(new Error('Payload provided isn\'t valid'));
-  }
-}
+  },
+};
+
+export default jwtGateway;
