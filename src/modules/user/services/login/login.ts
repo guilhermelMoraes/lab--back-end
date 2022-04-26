@@ -4,7 +4,7 @@ import Email from '../../domain/email';
 import Password from '../../domain/password';
 import { UserProperties } from '../../domain/user';
 import UserRepository from '../../repository/user.repository';
-import { UserOrPasswordWrongError } from './errors';
+import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';
 
 type UserProps = Omit<UserProperties, 'hash'>;
@@ -29,7 +29,7 @@ export default class Login {
     const userProps = await this._userRepository.findUserByEmail(email);
 
     if (!userProps) {
-      return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
+      return Result.fail<UserDoesntExistError>(new UserDoesntExistError(email));
     }
 
     const { hash, userId, username } = userProps as UserProperties;
