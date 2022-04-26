@@ -7,10 +7,13 @@ type JwtPayload = Buffer | string | object;
 function generateToken(payload: JwtPayload): Promise<string> {
   return new Promise(
     (resolve: (value: string) => void, reject: (reason: Error) => void): void => {
-      jwt.sign(payload, 'secret', {}, (jwtError: Error | null, token?: string): void => {
-        if (jwtError) reject(jwtError);
-        resolve(token as string);
-      });
+      jwt.sign(payload,
+        process.env.JWT_PRIVATE_KEY as string,
+        {},
+        (jwtError: Error | null, token?: string): void => {
+          if (jwtError) reject(jwtError);
+          resolve(token as string);
+        });
     },
   );
 }
