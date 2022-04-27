@@ -1,7 +1,6 @@
 import express, { Router } from 'express';
 import ExpressAdapter from '../../../shared/infrastructure/adapters/express';
-import loginController from '../../controllers/login';
-import signUpController from '../../controllers/sign-up';
+import { loginController, signUpController } from '../../controllers';
 import { LoginDTO, SignUpDTO } from '../../services';
 
 const router: Router = express.Router();
