@@ -62,4 +62,25 @@ export default abstract class Controller<DTO> {
       payload: message,
     };
   }
+
+  protected static notFound(message = 'Resource not found'): Response<string> {
+    return {
+      statusCode: 404,
+      payload: message,
+    };
+  }
+
+  protected static unauthorized(message = 'Unauthorized'): Response<string> {
+    return {
+      statusCode: 401,
+      payload: message,
+    };
+  }
+
+  protected static ok<T>(payload: T): Response<T> {
+    return {
+      statusCode: 200,
+      payload,
+    };
+  }
 }
