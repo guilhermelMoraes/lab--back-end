@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import Result from '../../shared/domain/result';
-import ValueObject from '../../shared/domain/value-object';
+import { Result, ValueObject } from '../../shared/domain';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 
 type Hash = {

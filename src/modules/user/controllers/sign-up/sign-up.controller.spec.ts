@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment */
-import SignUp from '../../services/sign-up/sign-up.service';
-import SignUpController from './sign-up.controller';
-import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
-import SignUpDTO from '../../services/sign-up/sign-up.DTO';
 import { Request } from '../../../shared/http/controller';
+import { UserInMemoryRepository } from '../../repository';
+import { SignUpDTO, SignUpService } from '../../services';
+import SignUpController from './sign-up.controller';
 
 const dummyUser: SignUpDTO = {
   email: 'john.doe@mail.com',
@@ -18,12 +17,12 @@ const fakeRequest: Request<SignUpDTO> = {
 
 describe('Controller: sign-up', () => {
   let userRepository: UserInMemoryRepository;
-  let signUpService: SignUp;
+  let signUpService: SignUpService;
   let sut: SignUpController;
 
   beforeAll(() => {
     userRepository = new UserInMemoryRepository();
-    signUpService = new SignUp(userRepository);
+    signUpService = new SignUpService(userRepository);
     sut = new SignUpController(signUpService);
   });
 

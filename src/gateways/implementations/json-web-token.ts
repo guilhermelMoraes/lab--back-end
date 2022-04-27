@@ -1,5 +1,5 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-import Result from '../../modules/shared/domain/result';
+import { Result } from '../../modules/shared/domain';
 import JwtClient from '../jwt';
 
 type JwtPayload = Buffer | string | object;
@@ -18,13 +18,10 @@ function generateToken(payload: JwtPayload): Promise<string> {
   );
 }
 
-function payloadValidation(payload: any): payload is JwtPayload {
+function payloadValidation(payload: unknown): payload is JwtPayload {
   if (typeof payload === 'string') return true;
-
   if (Buffer.isBuffer(payload)) return true;
-
   if (Object.prototype.toString.call(payload) === '[object Object]') return true;
-
   return false;
 }
 
