@@ -2,7 +2,7 @@ import JwtClient from '../../../../gateways/jwt';
 import Result from '../../../shared/domain/result';
 import { Email, Password } from '../../domain';
 import { UserProperties } from '../../domain/user';
-import UserRepository from '../../repository/user.repository';
+import { UserRepository } from '../../repository';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';
 

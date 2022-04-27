@@ -1,10 +1,10 @@
-import LoginController from './login.controller';
-import postgresDataSource from '../../../shared/infrastructure/database/config';
-import { LoginService } from '../../services/login';
 import jwtClient from '../../../../gateways/implementations/json-web-token';
-import UserRepository from '../../repository/implementations/user.type-orm';
+import postgresDataSource from '../../../shared/infrastructure/database/config';
+import { UserTypeOrmRepository } from '../../repository';
+import { LoginService } from '../../services/login';
+import LoginController from './login.controller';
 
-const userRepository = new UserRepository(postgresDataSource);
+const userRepository = new UserTypeOrmRepository(postgresDataSource);
 const loginService = new LoginService(userRepository, jwtClient);
 const loginController = new LoginController(loginService);
 

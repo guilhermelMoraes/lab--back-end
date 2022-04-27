@@ -1,14 +1,12 @@
 import Result from '../../../shared/domain/result';
-import UserRepository from '../../repository/user.repository';
-import SignUpDTO from './sign-up.DTO';
-import { EmailAlreadyUsedError } from './errors';
-import UserMapper from '../../user-mapper';
 import {
   Email,
-  Password,
-  Username,
-  User,
+  Password, User, Username,
 } from '../../domain';
+import { UserRepository } from '../../repository';
+import UserMapper from '../../user-mapper';
+import { EmailAlreadyUsedError } from './errors';
+import SignUpDTO from './sign-up.DTO';
 
 type Response = Promise<Result<unknown> | Result<Email> | Result<void>>;
 

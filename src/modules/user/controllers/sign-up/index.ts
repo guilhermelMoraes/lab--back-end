@@ -1,5 +1,5 @@
 import postgresDataSource from '../../../shared/infrastructure/database/config';
-import UserTypeOrmRepository from '../../repository/implementations/user.type-orm';
+import { UserTypeOrmRepository } from '../../repository';
 import { SignUpService } from '../../services/sign-up';
 import SignUpController from './sign-up.controller';
 

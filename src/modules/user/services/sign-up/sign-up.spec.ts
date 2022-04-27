@@ -1,7 +1,7 @@
-import SignUpDTO from './sign-up.DTO';
 import { NonStandardEmailError } from '../../domain';
+import { UserInMemoryRepository } from '../../repository';
 import { EmailAlreadyUsedError } from './errors';
-import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
+import SignUpDTO from './sign-up.DTO';
 import SignUpService from './sign-up.service';
 
 describe('Service: sign-up', () => {

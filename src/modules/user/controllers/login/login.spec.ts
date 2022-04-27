@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { LoginService } from '../../services/login';
 import jwtClient from '../../../../gateways/implementations/json-web-token';
-import LoginController from './login.controller';
-import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
-import UserRepository from '../../repository/user.repository';
-import { Password } from '../../domain';
 import Result from '../../../shared/domain/result';
+import { Password } from '../../domain';
+import { UserInMemoryRepository, UserRepository } from '../../repository';
+import { LoginService } from '../../services/login';
+import LoginController from './login.controller';
 
 describe('Controller: login', () => {
   let userRepository: UserRepository;
