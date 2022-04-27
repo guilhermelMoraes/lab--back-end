@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import Result from '../../modules/shared/domain/result';
 import JwtClient from '../jwt';
 
@@ -35,7 +35,7 @@ const jwtGateway: JwtClient = {
         const token = await generateToken(payload);
         return Result.ok<string>(token);
       } catch (jwtError) {
-        return Result.fail<Error>(jwtError as Error);
+        return Result.fail<Error>(jwtError as JsonWebTokenError);
       }
     }
 
