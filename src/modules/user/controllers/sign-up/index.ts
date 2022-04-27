@@ -1,6 +1,6 @@
 import postgresDataSource from '../../../shared/infrastructure/database/config';
 import { UserTypeOrmRepository } from '../../repository';
-import { SignUpService } from '../../services/sign-up';
+import { SignUpService } from '../../services';
 import SignUpController from './sign-up.controller';
 
 const userRepository = new UserTypeOrmRepository(postgresDataSource);

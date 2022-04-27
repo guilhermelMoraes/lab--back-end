@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/ban-ts-comment */
 import { Request } from '../../../shared/http/controller';
 import { UserInMemoryRepository } from '../../repository';
-import { SignUpDTO, SignUpService } from '../../services/sign-up';
+import { SignUpDTO, SignUpService } from '../../services';
 import SignUpController from './sign-up.controller';
 
 const dummyUser: SignUpDTO = {

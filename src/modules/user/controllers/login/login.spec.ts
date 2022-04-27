@@ -3,7 +3,7 @@ import jwtClient from '../../../../gateways/implementations/json-web-token';
 import Result from '../../../shared/domain/result';
 import { Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
-import { LoginService } from '../../services/login';
+import { LoginService } from '../../services';
 import LoginController from './login.controller';
 
 describe('Controller: login', () => {
