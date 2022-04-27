@@ -1,4 +1,4 @@
-import Result from '../../../shared/domain/result';
+import { Result } from '../../../shared/domain';
 import {
   Email,
   Password, User, Username,

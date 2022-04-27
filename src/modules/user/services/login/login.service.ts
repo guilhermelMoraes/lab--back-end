@@ -1,5 +1,5 @@
 import JwtClient from '../../../../gateways/jwt';
-import Result from '../../../shared/domain/result';
+import { Result } from '../../../shared/domain';
 import { Email, Password } from '../../domain';
 import { UserProperties } from '../../domain/user';
 import { UserRepository } from '../../repository';
