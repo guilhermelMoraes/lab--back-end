@@ -1,12 +1,11 @@
 import Controller, { Request, validatePayload } from '../../../shared/http/controller';
 import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
-import Login from '../../services/login/login';
-import LoginDTO from '../../services/login/login.DTO';
+import { LoginService, LoginDTO } from '../../services/login';
 
 export default class LoginController extends Controller<LoginDTO> {
-  private readonly _loginService: Login;
+  private readonly _loginService: LoginService;
 
-  constructor(loginService: Login) {
+  constructor(loginService: LoginService) {
     super();
     this._loginService = loginService;
   }

@@ -1,4 +1,4 @@
-import Login from './login';
+import Login from './login.service';
 import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
 import UserRepository from '../../repository/user.repository';
 import Result from '../../../shared/domain/result';

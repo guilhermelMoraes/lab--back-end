@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 
 import ExpressAdapter from '../../../shared/infrastructure/adapters/express';
-import LoginDTO from '../../services/login/login.DTO';
+import { LoginDTO } from '../../services/login';
 import SignUpDTO from '../../services/sign-up/sign-up.DTO';
 import loginController from '../../controllers/login';
 import signUpController from '../../controllers/sign-up';
