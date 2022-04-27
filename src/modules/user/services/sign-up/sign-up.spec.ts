@@ -1,5 +1,5 @@
 import SignUpDTO from './sign-up.DTO';
-import { NonStandardEmailError } from '../../domain/errors';
+import { NonStandardEmailError } from '../../domain';
 import { EmailAlreadyUsedError } from './errors';
 import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
 import SignUpService from './sign-up.service';

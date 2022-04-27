@@ -2,10 +2,9 @@ import Login from './login';
 import UserInMemoryRepository from '../../repository/implementations/user.in-memory';
 import UserRepository from '../../repository/user.repository';
 import Result from '../../../shared/domain/result';
-import { NonStandardEmailError } from '../../domain/errors';
+import { Password, NonStandardEmailError } from '../../domain';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import JwtClient from '../../../../gateways/jwt';
-import Password from '../../domain/password';
 
 jest.mock('../../domain/password', () => ({
   compare: () => true,
