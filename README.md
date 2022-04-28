@@ -1,3 +1,5 @@
-[![CircleCI](https://circleci.com/gh/guilhermelMoraes/lab/tree/main.svg?style=shield)](https://circleci.com/gh/guilhermelMoraes/lab/tree/main)
+[![CircleCI](https://circleci.com/gh/guilhermelMoraes/lab--back-end/tree/main.svg?style=shield)](https://circleci.com/gh/guilhermelMoraes/lab--back-end/tree/main)
 
-# lab
+# lab--back-end
+
+An e-commerce lab.
