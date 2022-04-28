@@ -7,31 +7,6 @@ export type Response<T> = {
   payload?: T;
 }
 
-export type PayloadValidity = {
-  parameter?: string;
-  succeeds: boolean;
-}
-
-export function validatePayload<T>(payload: T, requiredParameters: string[]): PayloadValidity {
-  for (const parameter of requiredParameters) {
-    const missingRequiredParameter = !Object
-      .prototype
-      .hasOwnProperty
-      .call(payload, parameter);
-
-    if (missingRequiredParameter) {
-      return {
-        parameter,
-        succeeds: false,
-      };
-    }
-  }
-
-  return {
-    succeeds: true,
-  };
-}
-
 export default abstract class Controller<DTO> {
   public abstract handle<T extends DTO>(request: Request<T>): Promise<any>;
 
