@@ -1,4 +1,7 @@
-import Controller, { Request, Response, validatePayload } from '../../../shared/http/controller';
+import {
+  Controller, Request,
+  Response, validatePayload,
+} from '../../../shared/http';
 import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
 import { SignUpDTO, SignUpService } from '../../services';
 

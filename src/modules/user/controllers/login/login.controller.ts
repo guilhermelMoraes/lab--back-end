@@ -1,5 +1,9 @@
-import Controller, { Request, validatePayload } from '../../../shared/http/controller';
-import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
+import {
+  Controller,
+  MissingRequiredParameterError,
+  Request,
+  validatePayload,
+} from '../../../shared/http';
 import { LoginDTO, LoginService } from '../../services';
 
 export default class LoginController extends Controller<LoginDTO> {
