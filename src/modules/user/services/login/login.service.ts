@@ -1,7 +1,6 @@
 import JwtClient from '../../../../gateways/jwt';
 import { Result } from '../../../shared/domain';
-import { Email, Password } from '../../domain';
-import { UserProperties } from '../../domain/user';
+import { Email, Password, UserProperties } from '../../domain';
 import { UserRepository } from '../../repository';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';

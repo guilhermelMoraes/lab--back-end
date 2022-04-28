@@ -1,4 +1,4 @@
-import User, { UserProperties } from './domain/user';
+import { User, UserProperties } from './domain';
 
 export default class UserMapper {
   public static toDatabase(user: User): UserProperties {

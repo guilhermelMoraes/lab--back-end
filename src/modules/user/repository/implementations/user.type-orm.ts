@@ -1,5 +1,5 @@
 import { DataSource, Repository } from 'typeorm';
-import { UserProperties } from '../../domain/user';
+import { UserProperties } from '../../domain';
 import UserModel from '../../infrastructure/database/user.model';
 import UserRepository from '../user.repository';
 

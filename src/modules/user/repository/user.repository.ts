@@ -1,4 +1,4 @@
-import { UserProperties } from '../domain/user';
+import { UserProperties } from '../domain';
 
 interface UserRepository {
   create(user: UserProperties): Promise<void>;
