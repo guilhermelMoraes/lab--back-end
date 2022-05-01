@@ -1,6 +1,6 @@
 export default class PasswordMatchConfirmationError extends Error {
   constructor(password: string, confirmation: string) {
-    super(`Password didn't match confirmation: ${password} and ${confirmation} are different`);
+    super(`Senha é diferente da confirmação: ${password} e ${confirmation} são diferentes`);
     this.name = 'PasswordMatchConfirmationError';
   }
 }

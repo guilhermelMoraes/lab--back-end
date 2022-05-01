@@ -24,7 +24,7 @@ export default abstract class Controller<DTO> {
     };
   }
 
-  protected static internalServerError(message = 'Internal server error. Please, try again later'): Response<string> {
+  protected static internalServerError(message = 'Erro interno do servidor. Tente novamente mais tarde'): Response<string> {
     return {
       statusCode: 500,
       payload: message,
@@ -38,14 +38,14 @@ export default abstract class Controller<DTO> {
     };
   }
 
-  protected static notFound(message = 'Resource not found'): Response<string> {
+  protected static notFound(message = 'Recurso não encontrado'): Response<string> {
     return {
       statusCode: 404,
       payload: message,
     };
   }
 
-  protected static unauthorized(message = 'Unauthorized'): Response<string> {
+  protected static unauthorized(message = 'Sem autorização'): Response<string> {
     return {
       statusCode: 401,
       payload: message,

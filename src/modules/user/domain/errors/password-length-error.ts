@@ -1,6 +1,6 @@
 export default class PasswordLengthError extends Error {
   constructor(actualLength: number) {
-    super(`Password must have at least 8 and max 30 characters. Got ${actualLength}`);
+    super(`Senha deve ter no mínimo 8 e no máximo 30 caracteres. Senha atual com ${actualLength} caracteres`);
     this.name = 'PasswordLengthError';
   }
 }

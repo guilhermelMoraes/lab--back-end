@@ -1,6 +1,6 @@
 export default class UserDoesntExistError extends Error {
   constructor(email: string) {
-    super(`${email} is not associated to any users`);
+    super(`${email} não está associado a nenhum usuário`);
     this.name = 'UserDoesntExistError';
   }
 }

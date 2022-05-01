@@ -1,6 +1,6 @@
 export default class NonStandardEmailError extends Error {
   constructor(email: string) {
-    super(`${email} is not a valid e-mail`);
+    super(`${email} não é um e-mail válido`);
     this.name = 'NonStandardEmailError';
   }
 }

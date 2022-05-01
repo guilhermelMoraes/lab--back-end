@@ -27,7 +27,7 @@ describe('Controller: login', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'password is required but wasn\'t found',
+      payload: 'O parâmetro obrigatório password não foi encontrado',
     });
   });
 
@@ -41,7 +41,7 @@ describe('Controller: login', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'invalid_mail is not a valid e-mail',
+      payload: 'invalid_mail não é um e-mail válido',
     });
   });
 
@@ -57,7 +57,7 @@ describe('Controller: login', () => {
 
     expect(response).toEqual({
       statusCode: 404,
-      payload: `${request.payload.email} is not associated to any users`,
+      payload: `${request.payload.email} não está associado a nenhum usuário`,
     });
   });
 
@@ -66,7 +66,7 @@ describe('Controller: login', () => {
     async () => {
       jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce({
         userId: 'user-id',
-        email: 'bleblé',
+        email: 'not_an_email',
         username: 'username',
         hash: 'teste',
       });
@@ -82,7 +82,7 @@ describe('Controller: login', () => {
 
       expect(response).toEqual({
         statusCode: 401,
-        payload: 'User or password wrong',
+        payload: 'Usuário e/ou senha errado(s)',
       });
     },
   );
@@ -92,9 +92,9 @@ describe('Controller: login', () => {
 
     jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce({
       userId: 'user-id',
-      email: 'bleblé',
+      email: 'valid_email',
       username: 'username',
-      hash: 'teste',
+      hash: 'valid_hash',
     });
 
     jest.spyOn(Password, 'compare').mockResolvedValueOnce(Result.ok<boolean>(true));

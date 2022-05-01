@@ -1,6 +1,6 @@
 export default class MissingRequiredParameterError extends Error {
   constructor(parameter: string) {
-    super(`${parameter} is required but wasn't found`);
+    super(`O parâmetro obrigatório ${parameter} não foi encontrado`);
     this.name = 'MissingRequiredPropertyError';
   }
 }

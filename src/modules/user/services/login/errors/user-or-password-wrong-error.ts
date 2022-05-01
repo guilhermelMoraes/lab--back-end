@@ -1,6 +1,6 @@
 export default class UserOrPasswordWrongError extends Error {
   constructor() {
-    super('User or password wrong');
+    super('Usuário e/ou senha errado(s)');
     this.name = 'UserOrPasswordWrongError';
   }
 }

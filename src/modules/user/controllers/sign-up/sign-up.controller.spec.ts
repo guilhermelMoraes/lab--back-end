@@ -33,7 +33,7 @@ describe('Controller: sign-up', () => {
     const response = await sut.handle({ payload: payloadWithoutEmail });
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'email is required but wasn\'t found',
+      payload: 'O parâmetro obrigatório email não foi encontrado',
     });
   });
 
@@ -45,7 +45,7 @@ describe('Controller: sign-up', () => {
     const response = await sut.handle(fakeRequest);
     expect(response).toEqual({
       statusCode: 500,
-      payload: 'Internal server error. Please, try again later',
+      payload: 'Erro interno do servidor. Tente novamente mais tarde',
     });
 
     signUpServiceThrowing.mockRestore();
@@ -65,7 +65,7 @@ describe('Controller: sign-up', () => {
     const response = await sut.handle(fakeRequestWithConflict);
     expect(response).toEqual({
       statusCode: 409,
-      payload: 'john-doe123@mail.com already used',
+      payload: 'john-doe123@mail.com já utilizado',
     });
   });
 
@@ -82,7 +82,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'Username length must be in between 4 and 100 characters. Got 2',
+      payload: 'Nome de usuário deve ter no mínimo 4 e no máximo 100 caracteres. Recebido(s) 2 caracter(es)',
     });
   });
 
@@ -100,7 +100,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'Password must have at least 8 and max 30 characters. Got 4',
+      payload: 'Senha deve ter no mínimo 8 e no máximo 30 caracteres. Senha atual com 4 caracteres',
     });
   });
 
@@ -117,7 +117,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'john-doemail.com is not a valid e-mail',
+      payload: 'john-doemail.com não é um e-mail válido',
     });
   });
 
@@ -135,7 +135,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 409,
-      payload: 'Password didn\'t match confirmation: testing-123 and test-123 are different',
+      payload: 'Senha é diferente da confirmação: testing-123 e test-123 são diferentes',
     });
   });
 
