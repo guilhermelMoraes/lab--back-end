@@ -143,7 +143,7 @@ describe('Controller: sign-up', () => {
     const response = await sut.handle(fakeRequest);
     expect(response).toEqual({
       statusCode: 201,
-      payload: 'User successfully created',
+      payload: 'Usuário criado com sucesso',
     });
   });
 });
