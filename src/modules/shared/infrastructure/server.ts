@@ -24,7 +24,7 @@ async function connectToDatabase(): Promise<void> {
   }
 }
 
-async function bootServer(): Promise<void> {
+async function serverFacade(): Promise<void> {
   await connectToDatabase();
 
   if (_databaseConnectionOpen) {
@@ -33,5 +33,5 @@ async function bootServer(): Promise<void> {
 }
 
 (async (): Promise<void> => {
-  await bootServer();
+  await serverFacade();
 })();
