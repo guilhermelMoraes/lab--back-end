@@ -13,6 +13,11 @@
     "lib": ["ES6"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared/*": ["src/modules/shared/*"],
+      "@user/*": ["src/modules/user/*"]
+    }
   }
 }

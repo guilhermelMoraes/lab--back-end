@@ -1,10 +1,10 @@
-import { Result } from '../../../shared/domain';
+import { Result } from '@shared/domain';
 import {
   Email,
   Password, User, Username,
-} from '../../domain';
-import { UserRepository } from '../../repository';
-import UserMapper from '../../user-mapper';
+} from '@user/domain';
+import { UserRepository } from '@user/repository';
+import UserMapper from '@user/user-mapper';
 import { EmailAlreadyUsedError } from './errors';
 import SignUpDTO from './sign-up.DTO';
 

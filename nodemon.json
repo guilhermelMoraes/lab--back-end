@@ -1,4 +1,7 @@
 {
   "verbose": true,
-  "watch": ["src/modules/shared/infrastructure/server.ts", "./.env"]
+  "watch": ["src/**/*.ts", "./.env"],
+  "execMap": {
+    "ts": "ts-node -r tsconfig-paths/register"
+  }
 }

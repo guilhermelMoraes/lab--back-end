@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import User from '../../../user/infrastructure/database/user.model';
+import User from '@user/infrastructure/database/user.model';
 
 const {
   POSTGRES_TYPEORM_HOST,

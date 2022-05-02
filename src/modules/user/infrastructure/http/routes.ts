@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
+
+import { loginController, signUpController } from '@user/controllers';
+import { LoginDTO, SignUpDTO } from '@user/services';
 import route from './express-route-adapter';
-import { loginController, signUpController } from '../../controllers';
-import { LoginDTO, SignUpDTO } from '../../services';
 
 const router: Router = express.Router();
 

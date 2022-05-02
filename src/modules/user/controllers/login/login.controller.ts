@@ -3,8 +3,8 @@ import {
   MissingRequiredParameterError,
   Request,
   validatePayload,
-} from '../../../shared/http';
-import { LoginDTO, LoginService } from '../../services';
+} from '@shared/http';
+import { LoginDTO, LoginService } from '@user/services';
 
 export default class LoginController extends Controller<LoginDTO> {
   private readonly _loginService: LoginService;

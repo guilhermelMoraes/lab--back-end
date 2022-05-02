@@ -1,4 +1,4 @@
-import { UserProperties } from '../../domain';
+import { UserProperties } from '@user/domain';
 import UserRepository from '../user.repository';
 
 /**

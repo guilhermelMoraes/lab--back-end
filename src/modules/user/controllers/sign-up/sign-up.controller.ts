@@ -1,9 +1,8 @@
 import {
-  Controller, Request,
+  Controller, MissingRequiredParameterError, Request,
   Response, validatePayload,
-} from '../../../shared/http';
-import MissingRequiredParameterError from '../../../shared/http/errors/missing-required-parameter';
-import { SignUpDTO, SignUpService } from '../../services';
+} from '@shared/http';
+import { SignUpDTO, SignUpService } from '@user/services';
 
 export default class SignUpController extends Controller<SignUpDTO> {
   private readonly _signUpService: SignUpService;

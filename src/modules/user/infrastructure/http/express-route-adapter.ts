@@ -1,5 +1,5 @@
 import { Request as ExpressReq, RequestHandler, Response as ExpressRes } from 'express';
-import Controller, { Request, Response } from '../../../shared/http/controller';
+import Controller, { Request, Response } from '@shared/http/controller';
 
 function route<T>(controller: Controller<T>): RequestHandler {
   return async (request: ExpressReq, response: ExpressRes): Promise<void> => {
