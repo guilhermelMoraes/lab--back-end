@@ -9,7 +9,7 @@
     "test": "jest - --findRelatedTests",
     "test:ci": "jest",
     "test:dev": "jest --watch --verbose",
-    "start:dev": "nodemon src/modules/shared/infrastructure/server.ts",
+    "start:dev": "nodemon",
     "compile": "rm -rf ./dist && tsc"
   },
   "repository": {

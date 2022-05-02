@@ -1,4 +1,4 @@
-import { Result, ValueObject } from '../../shared/domain';
+import { Result, ValueObject } from '@shared/domain';
 import { NonStandardEmailError } from './errors';
 
 type EmailProperties = {
