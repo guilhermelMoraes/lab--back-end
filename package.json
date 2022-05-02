@@ -70,5 +70,8 @@
       "npm run lint",
       "npm run test"
     ]
+  },
+  "engines": {
+    "node": "16.14.2"
   }
 }
