@@ -9,7 +9,7 @@ const {
   ENVIRONMENT,
 } = process.env;
 
-const IS_DEVELOPMENT = ENVIRONMENT === 'DEVELOPMENT';
+const isDevelopment = ENVIRONMENT === 'DEVELOPMENT';
 
 const postgresDataSource = new DataSource({
   type: 'postgres',
@@ -18,7 +18,8 @@ const postgresDataSource = new DataSource({
   password: POSTGRES_TYPEORM_PASSWORD,
   database: POSTGRES_TYPEORM_DATABASE,
   entities: [User],
-  synchronize: IS_DEVELOPMENT,
+  synchronize: isDevelopment,
+  logging: isDevelopment ? ['error', 'warn'] : false,
 });
 
 export default postgresDataSource;
