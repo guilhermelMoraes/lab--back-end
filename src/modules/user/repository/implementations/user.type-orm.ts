@@ -1,6 +1,6 @@
 import { DataSource, Repository } from 'typeorm';
 import { UserProperties } from '@user/domain';
-import UserModel from '../../infrastructure/database/user.model';
+import UserModel from '@user/infrastructure/database/user.model';
 import UserRepository from '../user.repository';
 
 export default class UserTypeOrmRepository implements UserRepository {
@@ -11,7 +11,12 @@ export default class UserTypeOrmRepository implements UserRepository {
   }
 
   public async create(user: UserProperties): Promise<void> {
-    await this._typeOrmUserRepo.save(user);
+    const userInstance = new UserModel();
+    userInstance.email = user.email;
+    userInstance.hash = user.hash;
+    userInstance.username = user.username;
+    userInstance.userId = user.userId;
+    await this._typeOrmUserRepo.save(userInstance);
   }
 
   public async findUserByEmail(email: string): Promise<UserProperties | null> {
