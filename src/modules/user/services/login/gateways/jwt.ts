@@ -1,7 +1,10 @@
 import { Result } from '@shared/domain';
+import { UserProperties } from '@user/domain';
+
+export type UserProps = Omit<UserProperties, 'hash'>;
 
 interface JwtGateway {
-  sign<T>(payload: T): Promise<Result<string | Error>>;
+  sign(payload: UserProps): Promise<Result<string | Error>>;
 }
 
 export default JwtGateway;

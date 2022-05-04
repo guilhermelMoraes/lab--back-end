@@ -5,8 +5,6 @@ import JwtGateway from './gateways/jwt';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';
 
-type UserProps = Omit<UserProperties, 'hash'>;
-
 export default class Login {
   private readonly _userRepository: UserRepository;
   private readonly _jwt: JwtGateway;
@@ -41,7 +39,7 @@ export default class Login {
       return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
     }
 
-    const tokenOrError = await this._jwt.sign<UserProps>({ email, userId, username });
+    const tokenOrError = await this._jwt.sign({ email, userId, username });
     if (tokenOrError.isSuccess) {
       return Result.ok<string>(tokenOrError.value as string);
     }
