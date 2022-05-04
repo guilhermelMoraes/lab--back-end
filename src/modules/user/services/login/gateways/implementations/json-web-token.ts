@@ -1,6 +1,6 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-import { Result } from '../../modules/shared/domain';
-import JwtClient from '../jwt';
+import { Result } from '@shared/domain';
+import JwtGateway from '../jwt';
 
 type JwtPayload = Buffer | string | object;
 
@@ -25,7 +25,7 @@ function payloadValidation(payload: unknown): payload is JwtPayload {
   return false;
 }
 
-const jwtGateway: JwtClient = {
+const jwtGateway: JwtGateway = {
   async sign<T>(payload: T): Promise<Result<string | Error>> {
     if (payloadValidation(payload)) {
       try {

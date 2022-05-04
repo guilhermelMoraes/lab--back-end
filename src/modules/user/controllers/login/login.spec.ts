@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import jwtClient from '../../../../gateways/implementations/json-web-token';
 import { Result } from '../../../shared/domain';
 import { Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
-import { LoginService } from '../../services';
+import { LoginService, jwtClient } from '../../services';
 import LoginController from './login.controller';
 
 describe('Controller: login', () => {

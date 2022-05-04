@@ -1,4 +1,4 @@
-import JwtClient from '../../../../gateways/jwt';
+import JwtGateway from './gateways/jwt';
 import { Result } from '../../../shared/domain';
 import { NonStandardEmailError, Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
@@ -9,7 +9,7 @@ jest.mock('../../domain/password', () => ({
   compare: () => true,
 }));
 
-class JwtClientStub implements JwtClient {
+class JwtClientStub implements JwtGateway {
   // eslint-disable-next-line class-methods-use-this
   public async sign<T>(payload: T): Promise<Result<string | Error>> {
     return Promise.resolve(Result.ok<string>('valid_token'));
@@ -24,7 +24,7 @@ const validUserDummy = {
 describe('Service: login', () => {
   let sut: Login;
   let userRepository: UserRepository;
-  let jwtClientStub: JwtClient;
+  let jwtClientStub: JwtGateway;
 
   beforeAll(() => {
     userRepository = new UserInMemoryRepository();

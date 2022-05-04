@@ -1,7 +1,7 @@
 import { Result } from '@shared/domain';
 import { Email, Password, UserProperties } from '@user/domain';
 import { UserRepository } from '@user/repository';
-import JwtClient from '../../../../gateways/jwt';
+import JwtGateway from './gateways/jwt';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import LoginDTO from './login.DTO';
 
@@ -9,9 +9,9 @@ type UserProps = Omit<UserProperties, 'hash'>;
 
 export default class Login {
   private readonly _userRepository: UserRepository;
-  private readonly _jwt: JwtClient;
+  private readonly _jwt: JwtGateway;
 
-  constructor(userRepository: UserRepository, jwt: JwtClient) {
+  constructor(userRepository: UserRepository, jwt: JwtGateway) {
     this._userRepository = userRepository;
     this._jwt = jwt;
   }
