@@ -1,3 +1,4 @@
+import { Result } from '@shared/domain';
 import { UserProperties } from '@user/domain';
 import UserRepository from '../user.repository';
 
@@ -7,8 +8,9 @@ import UserRepository from '../user.repository';
 export default class UserInMemoryRepository implements UserRepository {
   private _users: UserProperties[] = [];
 
-  public async create(user: UserProperties): Promise<void> {
+  public async create(user: UserProperties): Promise<Result<boolean> | Result<Error>> {
     this._users.push(user);
+    return Result.ok<boolean>(true);
   }
 
   public async findUserByEmail(email: string): Promise<UserProperties | null> {
