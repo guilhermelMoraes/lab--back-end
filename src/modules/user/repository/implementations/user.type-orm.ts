@@ -11,11 +11,14 @@ export default class UserTypeOrmRepository implements UserRepository {
   }
 
   public async create(user: UserProperties): Promise<void> {
-    const userInstance = new UserModel();
-    userInstance.email = user.email;
-    userInstance.hash = user.hash;
-    userInstance.username = user.username;
-    userInstance.userId = user.userId;
+    const {
+      email, hash,
+      userId, username,
+    } = user;
+
+    const userInstance = this._typeOrmUserRepo.create({
+      email, hash, userId, username,
+    });
     await this._typeOrmUserRepo.save(userInstance);
   }
 
