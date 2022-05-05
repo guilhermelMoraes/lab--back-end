@@ -88,6 +88,8 @@ describe('Controller: login', () => {
 
   it('Should return a signed jwt if everything is okay', async () => {
     process.env.JWT_PRIVATE_KEY = 'private_key_dummy';
+    process.env.JWT_ISSUER = 'regular_string';
+    process.env.JWT_AUDIENCE = 'regular_string';
 
     jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce({
       userId: 'user-id',
