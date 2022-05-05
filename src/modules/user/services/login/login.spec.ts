@@ -1,4 +1,4 @@
-import JwtGateway from './gateways/jwt';
+import JwtGateway from '../gateways/jwt';
 import { Result } from '../../../shared/domain';
 import { NonStandardEmailError, Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
