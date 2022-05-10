@@ -13,6 +13,7 @@
     "lib": ["ES6"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "noImplicitOverride": true,
     "noEmitOnError": true,
     "baseUrl": ".",
     "paths": {
