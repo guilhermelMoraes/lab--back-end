@@ -45,8 +45,7 @@ export default class SignUp {
       ),
     );
 
-    this._userRepository.create(user);
-
+    await this._userRepository.create(user);
     return Result.ok<void>();
   }
 }

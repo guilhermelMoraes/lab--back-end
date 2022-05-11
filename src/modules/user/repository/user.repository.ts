@@ -1,8 +1,7 @@
-import { Result } from '@shared/domain';
 import { UserProperties } from '@user/domain';
 
 interface UserRepository {
-  create(user: UserProperties): Promise<Result<boolean> | Result<Error>>;
+  create(user: UserProperties): Promise<void>;
   findUserByEmail(email: string): Promise<UserProperties | null>;
 }
 
