@@ -1,6 +1,5 @@
-import bcrypt from 'bcrypt';
-
 import { Result, ValueObject } from '@shared/domain';
+import bcrypt from 'bcrypt';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 
 type Hash = {
@@ -17,7 +16,7 @@ export default class Password extends ValueObject<Hash> {
   private static readonly MAX_PASSWORD_LENGTH: number = 30;
   private static readonly SALT_ROUNDS: number = 10;
 
-  private constructor(hash: Hash) {
+  constructor(hash: Hash) {
     super(hash);
   }
 

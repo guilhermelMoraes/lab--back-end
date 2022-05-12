@@ -1,5 +1,5 @@
+import { TypeGuards } from '@shared/domain';
 import Crypto from 'crypto';
-
 import Email from './email';
 import Password from './password';
 import Username from './username';
@@ -9,6 +9,7 @@ export type UserProperties = {
   email: string;
   username: string;
   hash: string;
+  isEmailVerified?: boolean;
 }
 
 // FIXME: this is an anemic model. It shouldn't.
@@ -17,12 +18,23 @@ export default class User {
   private readonly _email: Email;
   private readonly _username: Username;
   private readonly _hash: Password;
+  private _isEmailVerified = false;
 
-  constructor(email: Email, username: Username, password: Password) {
-    this._userId = Crypto.randomUUID();
+  constructor(
+    email: Email,
+    username: Username,
+    password: Password,
+    userId?: string,
+    isEmailVerified?: boolean,
+  ) {
+    this._userId = userId ?? Crypto.randomUUID();
     this._email = email;
     this._username = username;
     this._hash = password;
+
+    if (TypeGuards.isBoolean(isEmailVerified)) {
+      this._isEmailVerified = isEmailVerified;
+    }
   }
 
   public get userId(): string {
@@ -39,5 +51,13 @@ export default class User {
 
   public get hash(): string {
     return this._hash.properties.hash;
+  }
+
+  public get isEmailVerified(): boolean {
+    return this._isEmailVerified;
+  }
+
+  public generateVerificationToken(): string {
+    return this.userId.slice(0, 8);
   }
 }
