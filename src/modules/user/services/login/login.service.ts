@@ -28,9 +28,11 @@ export default class Login {
       return Result.fail<UserDoesntExistError>(new UserDoesntExistError(email));
     }
 
-    const { hash, userId, username } = userProps as UserProperties;
+    const {
+      hash, userId,
+      username, isEmailVerified,
+    } = userProps as UserProperties;
     const passwordMatch = await Password.compare(loginDTO.password, hash);
-
     if (passwordMatch.isFailure) {
       return Result.fail<Error>(passwordMatch.error as Error);
     }
@@ -39,7 +41,9 @@ export default class Login {
       return Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError());
     }
 
-    const tokenOrError = await this._jwt.sign({ email, userId, username });
+    const tokenOrError = await this._jwt.sign({
+      email, userId, username, isEmailVerified,
+    });
     if (tokenOrError.isSuccess) {
       return Result.ok<string>(tokenOrError.value as string);
     }

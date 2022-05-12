@@ -25,6 +25,9 @@ export default class User {
   @Column({ nullable: false, length: 100 })
   public hash!: string;
 
+  @Column({ nullable: false, default: false })
+  public isEmailVerified!: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   public createdAt!: Date;
 

@@ -14,10 +14,11 @@ export default class UserTypeOrmRepository implements UserRepository {
     const {
       email, hash,
       userId, username,
+      isEmailVerified,
     } = user;
 
     const userInstance = this._typeOrmUserRepo.create({
-      email, hash, userId, username,
+      email, hash, userId, username, isEmailVerified,
     });
     await this._typeOrmUserRepo.save(userInstance);
   }

@@ -3,11 +3,13 @@ import { Result } from '@shared/domain';
 import JwtGateway, { UserProps } from '../jwt';
 
 function generateToken(payload: UserProps): Promise<string> {
-  const { email, userId, username } = payload;
+  const {
+    email, userId, username, isEmailVerified,
+  } = payload;
 
   return new Promise(
     (resolve: (value: string) => void, reject: (reason: Error) => void): void => {
-      jwt.sign({ username, email },
+      jwt.sign({ username, email, isEmailVerified },
         process.env.JWT_PRIVATE_KEY as string,
         {
           issuer: process.env.JWT_ISSUER,

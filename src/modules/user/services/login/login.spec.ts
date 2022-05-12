@@ -55,12 +55,14 @@ describe('Service: login', () => {
   it('Should return an error if password provided doesn\'t match the hash', async () => {
     jest.spyOn(Password, 'compare').mockResolvedValueOnce(Result.ok<boolean>(false));
 
-    jest.spyOn(userRepository, 'findUserByEmail').mockResolvedValueOnce({
-      email: 'valid_email',
-      userId: 'valid_id',
-      hash: 'invalid_username',
-      username: 'any_username',
-    });
+    jest
+      .spyOn(userRepository, 'findUserByEmail')
+      .mockResolvedValueOnce({
+        email: 'valid_email',
+        userId: 'valid_id',
+        hash: 'invalid_username',
+        username: 'any_username',
+      });
 
     const response = await sut.execute(validUserDummy);
     expect(response).toEqual(Result.fail<UserOrPasswordWrongError>(new UserOrPasswordWrongError()));
@@ -72,6 +74,7 @@ describe('Service: login', () => {
       userId: 'valid_id',
       hash: 'valid_hash',
       username: 'valid_username',
+      isEmailVerified: false,
     });
 
     const response = await sut.execute(validUserDummy);
