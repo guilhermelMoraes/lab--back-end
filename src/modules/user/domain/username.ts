@@ -1,4 +1,4 @@
-import { Result, ValueObject } from '@shared/domain';
+import { Result, TypeGuards, ValueObject } from '@shared/domain';
 import { UsernameLengthError } from './errors';
 
 type UsernameProperty = {
@@ -14,16 +14,20 @@ export default class Username extends ValueObject<UsernameProperty> {
   }
 
   private static validateUsername(username: string):
-    Result<UsernameLengthError> | Result<Username> {
-    const trimmedUsername: number = username.trim().length;
+    Result<Error> | Result<Username> {
+    if (TypeGuards.isString(username)) {
+      const trimmedUsername: number = username.trim().length;
 
-    if (trimmedUsername < this._MIN_LENGTH || trimmedUsername > this._MAX_LENGTH) {
-      return Result.fail<UsernameLengthError>(
-        new UsernameLengthError(this._MIN_LENGTH, this._MAX_LENGTH, trimmedUsername),
-      );
+      if (trimmedUsername < this._MIN_LENGTH || trimmedUsername > this._MAX_LENGTH) {
+        return Result.fail<UsernameLengthError>(
+          new UsernameLengthError(this._MIN_LENGTH, this._MAX_LENGTH, trimmedUsername),
+        );
+      }
+
+      return Result.ok<Username>();
     }
 
-    return Result.ok<Username>();
+    return Result.fail<TypeError>(new TypeError(`Username expects a string but got ${typeof username}`));
   }
 
   public static create(username: string): Result<UsernameLengthError> | Result<Username> {

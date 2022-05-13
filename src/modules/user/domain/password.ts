@@ -1,4 +1,4 @@
-import { Result, ValueObject } from '@shared/domain';
+import { Result, TypeGuards, ValueObject } from '@shared/domain';
 import bcrypt from 'bcrypt';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 
@@ -22,21 +22,30 @@ export default class Password extends ValueObject<Hash> {
 
   private static validatePassword(passwordCreationProps: PasswordCreationProps):
     Result<Error> | Result<Password> {
-    const { password, passwordConfirmation } = passwordCreationProps;
+    if (
+      TypeGuards.isString(passwordCreationProps.password)
+      && TypeGuards.isString(passwordCreationProps.passwordConfirmation)
+    ) {
+      const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
+      if (password !== passwordConfirmation) {
+        return Result.fail<PasswordMatchConfirmationError>(
+          new PasswordMatchConfirmationError(password, passwordConfirmation),
+        );
+      }
 
-    if (password !== passwordConfirmation) {
-      return Result.fail<PasswordMatchConfirmationError>(
-        new PasswordMatchConfirmationError(password, passwordConfirmation),
-      );
+      if (
+        password.length < this.MIN_PASSWORD_LENGTH
+        || password.length > this.MAX_PASSWORD_LENGTH
+      ) {
+        return Result.fail<PasswordLengthError>(
+          new PasswordLengthError(password.length),
+        );
+      }
+
+      return Result.ok<Password>();
     }
 
-    if (password.length < this.MIN_PASSWORD_LENGTH || password.length > this.MAX_PASSWORD_LENGTH) {
-      return Result.fail<PasswordLengthError>(
-        new PasswordLengthError(password.length),
-      );
-    }
-
-    return Result.ok<Password>();
+    return Result.fail<TypeError>(new TypeError('Expect to receive a string for password and confirmation'));
   }
 
   private static trimProperties(properties: PasswordCreationProps): PasswordCreationProps {
@@ -72,8 +81,13 @@ export default class Password extends ValueObject<Hash> {
 
   public static async create(passwordCreationProps: PasswordCreationProps):
     Promise<Result<Password> | Result<Error>> {
-    const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
-    const isPasswordValid = this.validatePassword({ password, passwordConfirmation });
+    const { password, passwordConfirmation } = passwordCreationProps;
+
+    const isPasswordValid = this.validatePassword({
+      password,
+      passwordConfirmation,
+    });
+
     if (isPasswordValid.isFailure) {
       return Result.fail<Error>(isPasswordValid.error as Error);
     }

@@ -38,6 +38,8 @@ export default class LoginController extends Controller<LoginDTO> {
           return LoginController.unauthorized(message);
         case 'NonStandardEmailError':
           return LoginController.badRequest(message);
+        case 'TypeError':
+          return LoginController.badRequest<string>(message);
         default: {
           return LoginController.internalServerError();
         }
