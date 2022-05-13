@@ -1,3 +1,4 @@
+export * from './gateways';
 export * from './login';
 export * from './sign-up';
-export * from './gateways';
+export { default as VerifyUserEmail } from './verify-user-email';

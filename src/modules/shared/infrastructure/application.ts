@@ -1,5 +1,5 @@
-import express, { Application } from 'express';
 import cors from 'cors';
+import express, { Application } from 'express';
 import router from './router';
 
 const application: Application = express();

@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import User from '@user/infrastructure/database/user.model';
+import UserCreatedEvent from '@user/events/user-created';
 
 const {
   POSTGRES_TYPEORM_HOST,
@@ -18,6 +19,7 @@ const postgresDataSource = new DataSource({
   password: POSTGRES_TYPEORM_PASSWORD,
   database: POSTGRES_TYPEORM_DATABASE,
   entities: [User],
+  subscribers: [UserCreatedEvent],
   synchronize: isDevelopment,
   logging: isDevelopment ? ['error', 'warn'] : false,
 });
