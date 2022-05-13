@@ -61,6 +61,10 @@
         "constructors": "no-public"
       }
     }],
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": [
+      "error"
+    ]
   }
 }
