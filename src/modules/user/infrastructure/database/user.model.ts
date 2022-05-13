@@ -1,3 +1,4 @@
+import { UserProperties } from '@user/domain';
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('users')
-export default class User {
+export default class User implements UserProperties {
   @PrimaryGeneratedColumn()
   public id!: number;
 

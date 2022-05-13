@@ -4,7 +4,7 @@ import Email from './email';
 import Password from './password';
 import Username from './username';
 
-export type UserProperties = {
+export interface UserProperties {
   userId: string;
   email: string;
   username: string;
@@ -13,7 +13,7 @@ export type UserProperties = {
 }
 
 // FIXME: this is an anemic model. It shouldn't.
-export default class User {
+export default class User implements UserProperties {
   private readonly _userId: string;
   private readonly _email: Email;
   private readonly _username: Username;
