@@ -1,6 +1,7 @@
 import postgresDataSource from '@shared/infrastructure/database/config';
+import { jwtClient } from '@user/gateways';
 import { UserTypeOrmRepository } from '@user/repository';
-import { LoginService, jwtClient } from '@user/services';
+import { LoginService } from '@user/services';
 import LoginController from './login.controller';
 
 const userRepository = new UserTypeOrmRepository(postgresDataSource);

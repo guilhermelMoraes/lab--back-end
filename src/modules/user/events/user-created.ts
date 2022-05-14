@@ -1,7 +1,8 @@
 /* eslint-disable class-methods-use-this */
 import { UserProperties } from '@user/domain';
+import { NodeMailer } from '@user/gateways';
 import User from '@user/infrastructure/database/user.model';
-import { NodeMailer, VerifyUserEmail } from '@user/services';
+import { VerifyUserEmail } from '@user/services';
 import {
   EntitySubscriberInterface,
   EventSubscriber,

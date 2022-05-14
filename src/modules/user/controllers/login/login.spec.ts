@@ -2,7 +2,8 @@
 import { Result } from '../../../shared/domain';
 import { Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
-import { LoginService, jwtClient } from '../../services';
+import { LoginService } from '../../services';
+import { jwtClient } from '../../gateways';
 import LoginController from './login.controller';
 
 describe('Controller: login', () => {

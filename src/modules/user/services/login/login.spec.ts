@@ -1,6 +1,6 @@
-import JwtGateway from '../gateways/jwt';
 import { Result } from '../../../shared/domain';
 import { NonStandardEmailError, Password } from '../../domain';
+import { JwtGateway } from '../../gateways';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
 import { UserDoesntExistError, UserOrPasswordWrongError } from './errors';
 import Login from './login.service';

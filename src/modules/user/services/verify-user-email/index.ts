@@ -1,6 +1,6 @@
 import { UserProperties } from '@user/domain';
+import { MailerService } from '@user/gateways';
 import UserMapper from '@user/user-mapper';
-import { MailerService } from '../gateways';
 
 export default class VerifyUserEmail {
   private readonly _mailerService: MailerService;
