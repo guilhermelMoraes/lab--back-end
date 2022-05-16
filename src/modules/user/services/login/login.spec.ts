@@ -1,4 +1,4 @@
-import { Result } from '../../../shared/utils';
+import { Result } from '../../../../shared/utils';
 import { NonStandardEmailError, Password } from '../../domain';
 import { JwtGateway } from '../../gateways';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
