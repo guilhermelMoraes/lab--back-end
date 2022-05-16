@@ -58,6 +58,6 @@ export default class User implements UserProperties {
   }
 
   public generateVerificationToken(): string {
-    return this.userId.slice(0, 8);
+    return this.userId.slice(0, 8).toUpperCase();
   }
 }
