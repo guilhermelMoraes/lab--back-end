@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import { SendRawEmailCommand, SES } from '@aws-sdk/client-ses';
 import { UserProperties } from '@user/domain';
 import { NodeMailer } from '@user/gateways';
 import User from '@user/infrastructure/database/user.model';
@@ -12,7 +13,18 @@ import {
 @EventSubscriber()
 export default class UserCreatedEvent implements EntitySubscriberInterface<User> {
   private sendVerificationEmail(user: UserProperties): void {
-    const nodeMailer = new NodeMailer();
+    const ses = new SES({
+      region: 'us-east-1',
+    });
+
+    const awsSesTransport = {
+      SES: {
+        ses,
+        aws: { SendRawEmailCommand },
+      },
+    };
+
+    const nodeMailer = new NodeMailer(awsSesTransport);
     const verifyUserEmailService = new VerifyUserEmail(nodeMailer);
     verifyUserEmailService.sendVerificationEmail(user);
   }

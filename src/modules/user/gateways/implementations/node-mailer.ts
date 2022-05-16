@@ -1,18 +1,13 @@
-import { SendRawEmailCommand, SES } from '@aws-sdk/client-ses';
 import { createTransport, SentMessageInfo } from 'nodemailer';
 import MailerService, { VerificationProps } from '../email-service';
 
-const sesInstance = new SES({
-  region: 'us-east-1',
-});
-
 export default class NodeMailer implements MailerService {
-  private readonly _transporter = createTransport({
-    SES: {
-      ses: sesInstance,
-      aws: { SendRawEmailCommand },
-    },
-  });
+  private readonly _transporter;
+
+  // @types/nodemailer is a messy, so setting the correct type would prevent the app from running
+  constructor(transport: any) {
+    this._transporter = createTransport(transport);
+  }
 
   private static craftVerificationMessage(props: VerificationProps): string {
     return `
@@ -29,7 +24,7 @@ export default class NodeMailer implements MailerService {
         </a>
         e inserir o código:
       </p>
-      <h2>${props.token.toUpperCase()}</h2>
+      <h2>${props.token}</h2>
       <small>
         Atenção: contas não verificadas são arquivadas após um mês, mesmo se pertencerem a usuários ativos.
       </small>
@@ -42,7 +37,7 @@ export default class NodeMailer implements MailerService {
   public async sendVerificationEmail(props: VerificationProps): Promise<void> {
     this._transporter.sendMail({
       from: 'thelab@egodev.tech',
-      // TODO: set to the actual recipient before moving to a PROD environment
+      // FIXME: set to the actual recipient before moving to a PROD environment
       to: 'guilherme.lmoraes.devel@gmail.com',
       subject: '💌 Verificação de e-mail',
       html: NodeMailer.craftVerificationMessage(props),
