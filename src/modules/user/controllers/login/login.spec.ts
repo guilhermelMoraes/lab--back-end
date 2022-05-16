@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Result } from '../../../shared/domain';
+import { Result } from '../../../shared/utils';
 import { Password } from '../../domain';
 import { UserInMemoryRepository, UserRepository } from '../../repository';
 import { LoginService } from '../../services';

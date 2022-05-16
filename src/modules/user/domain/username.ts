@@ -1,4 +1,5 @@
-import { Result, TypeGuards, ValueObject } from '@shared/domain';
+import { ValueObject } from '@shared/domain';
+import { Result, TypeGuards } from '@shared/utils';
 import { UsernameLengthError } from './errors';
 
 type UsernameProperty = {

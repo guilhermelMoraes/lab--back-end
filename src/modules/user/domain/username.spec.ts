@@ -1,4 +1,4 @@
-import { Result } from '../../shared/domain';
+import { Result } from '../../shared/utils';
 import { UsernameLengthError } from './errors';
 import Username from './username';
 

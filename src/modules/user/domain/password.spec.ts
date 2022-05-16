@@ -1,4 +1,4 @@
-import { Result } from '../../shared/domain';
+import { Result } from '../../shared/utils';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 import Password from './password';
 

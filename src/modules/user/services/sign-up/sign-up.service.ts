@@ -1,4 +1,4 @@
-import { Result } from '@shared/domain';
+import { Result } from '@shared/utils';
 import {
   Email,
   Password, User, Username,

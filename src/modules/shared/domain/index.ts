@@ -1,3 +1,2 @@
-export { default as Result } from './result';
+/* eslint-disable import/prefer-default-export */
 export { default as ValueObject } from './value-object';
-export { default as TypeGuards } from './type-guards';

@@ -1,5 +1,5 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-import { Result } from '@shared/domain';
+import { Result } from '@shared/utils';
 import JwtGateway, { UserProps } from '../jwt';
 
 function generateToken(payload: UserProps): Promise<string> {

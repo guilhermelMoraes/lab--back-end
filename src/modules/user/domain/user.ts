@@ -1,4 +1,4 @@
-import { TypeGuards } from '@shared/domain';
+import { TypeGuards } from '@shared/utils';
 import Crypto from 'crypto';
 import Email from './email';
 import Password from './password';
