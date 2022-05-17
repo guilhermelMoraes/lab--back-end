@@ -20,15 +20,11 @@ export default class SignUpController extends Controller<SignUpDTO> {
 
         switch (name) {
           case 'NonStandardEmailError':
-            return SignUpController.badRequest<string>(message);
           case 'PasswordLengthError':
-            return SignUpController.badRequest<string>(message);
           case 'UsernameLengthError':
-            return SignUpController.badRequest<string>(message);
           case 'TypeError':
             return SignUpController.badRequest<string>(message);
           case 'EmailAlreadyUsedError':
-            return SignUpController.conflict(message);
           case 'PasswordMatchConfirmationError':
             return SignUpController.conflict(message);
           default:
@@ -39,6 +35,7 @@ export default class SignUpController extends Controller<SignUpDTO> {
 
       return SignUpController.created('Usuário criado com sucesso');
     } catch (error) {
+      // TODO: add logging strategy
       return SignUpController.internalServerError();
     }
   }
