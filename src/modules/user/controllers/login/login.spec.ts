@@ -17,20 +17,6 @@ describe('Controller: login', () => {
     sut = new LoginController(loginService);
   });
 
-  it('Should return a bad request if a required property is missing', async () => {
-    const response = await sut.handle({
-      // @ts-ignore
-      payload: {
-        email: 'john.doe@mail.com',
-      },
-    });
-
-    expect(response).toEqual({
-      statusCode: 400,
-      payload: 'O parâmetro obrigatório password não foi encontrado',
-    });
-  });
-
   it('Should return a bad request if the email is invalid', async () => {
     const response = await sut.handle({
       payload: {

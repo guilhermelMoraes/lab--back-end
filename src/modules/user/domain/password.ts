@@ -70,12 +70,17 @@ export default class Password extends ValueObject<Hash> {
     }
   }
 
-  public static async compare(rawPassword: string, hashedPassword: string):
+  public static async compare(rawPassword: unknown, hashedPassword: string):
     Promise<Result<boolean> | Result<Error>> {
     try {
-      const passwordMatch: boolean = await bcrypt.compare(rawPassword, hashedPassword);
-      return Result.ok<boolean>(passwordMatch);
+      if (TypeGuards.isString(rawPassword)) {
+        const passwordMatch: boolean = await bcrypt.compare(rawPassword, hashedPassword);
+        return Result.ok<boolean>(passwordMatch);
+      }
+
+      return Result.fail<TypeError>(new TypeError(`Expect a string for password but got ${typeof rawPassword}`));
     } catch (bcryptError) {
+      // TODO: add logging
       return Result.fail<Error>(bcryptError as Error);
     }
   }

@@ -1,8 +1,6 @@
 import {
   Controller,
-  MissingRequiredParameterError,
   Request,
-  validatePayload,
 } from '@shared/http';
 import { LoginDTO, LoginService } from '@user/services';
 
@@ -15,17 +13,6 @@ export default class LoginController extends Controller<LoginDTO> {
   }
 
   public async handle<T extends LoginDTO>(request: Request<T>): Promise<any> {
-    const payloadValidation = validatePayload<LoginDTO>(
-      request.payload as LoginDTO,
-      ['email', 'password'],
-    );
-
-    if (!payloadValidation.succeeds) {
-      const { message } = new MissingRequiredParameterError(payloadValidation.parameter as string);
-
-      return LoginController.badRequest<string>(message);
-    }
-
     const login = await this._loginService.execute(request.payload as LoginDTO);
 
     if (login.isFailure) {

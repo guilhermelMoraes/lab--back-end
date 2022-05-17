@@ -26,17 +26,6 @@ describe('Controller: sign-up', () => {
     sut = new SignUpController(signUpService);
   });
 
-  it('Should return error if a required parameter is missing', async () => {
-    // @ts-ignore
-    const { email, ...payloadWithoutEmail } = dummyUser;
-    // @ts-ignore
-    const response = await sut.handle({ payload: payloadWithoutEmail });
-    expect(response).toEqual({
-      statusCode: 400,
-      payload: 'O parâmetro obrigatório email não foi encontrado',
-    });
-  });
-
   it('Should return an internal server error if the service throws', async () => {
     const signUpServiceThrowing = jest.spyOn(signUpService, 'execute').mockRejectedValueOnce(
       new Error('Fake error from mock'),
