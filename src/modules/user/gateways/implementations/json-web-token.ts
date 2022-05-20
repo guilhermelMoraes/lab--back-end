@@ -1,5 +1,6 @@
-import jwt, { JsonWebTokenError } from 'jsonwebtoken';
+import { logger } from '@shared/logger';
 import { Result } from '@shared/utils';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import JwtGateway, { UserProps } from '../jwt';
 
 function generateToken(payload: UserProps): Promise<string> {
@@ -30,6 +31,7 @@ const jwtGateway: JwtGateway = {
       const token = await generateToken(payload);
       return Result.ok<string>(token);
     } catch (jwtError) {
+      logger.error(jwtError as Error);
       return Result.fail<Error>(jwtError as JsonWebTokenError);
     }
   },

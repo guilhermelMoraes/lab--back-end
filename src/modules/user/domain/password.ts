@@ -1,4 +1,5 @@
 import { ValueObject } from '@shared/domain';
+import { logger } from '@shared/logger';
 import { Result, TypeGuards } from '@shared/utils';
 import bcrypt from 'bcrypt';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
@@ -62,10 +63,10 @@ export default class Password extends ValueObject<Hash> {
       const hash = await bcrypt.hash(rawPassword, this.SALT_ROUNDS);
       return Result.ok<string>(hash);
     } catch (bcryptError) {
-      // TODO: implement logging strategy
       const error = (bcryptError as Error);
       const errorMessage = `${error.message} | Attempt to use ${rawPassword} as a password`;
       error.message = errorMessage;
+      logger.error(error);
       return Result.fail<Error>(error);
     }
   }
@@ -80,7 +81,7 @@ export default class Password extends ValueObject<Hash> {
 
       return Result.fail<TypeError>(new TypeError(`Expect a string for password but got ${typeof rawPassword}`));
     } catch (bcryptError) {
-      // TODO: add logging
+      logger.error(bcryptError as Error);
       return Result.fail<Error>(bcryptError as Error);
     }
   }

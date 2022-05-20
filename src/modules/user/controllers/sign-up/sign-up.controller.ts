@@ -28,14 +28,14 @@ export default class SignUpController extends Controller<SignUpDTO> {
           case 'PasswordMatchConfirmationError':
             return SignUpController.conflict(message);
           default:
-            // TODO: implement logging strategy
+            this._logger.error(signUp.error as Error);
             return SignUpController.internalServerError();
         }
       }
 
       return SignUpController.created('Usuário criado com sucesso');
     } catch (error) {
-      // TODO: add logging strategy
+      this._logger.error(error as Error);
       return SignUpController.internalServerError();
     }
   }

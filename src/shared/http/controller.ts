@@ -1,3 +1,5 @@
+import { AppLogger, logger } from '@shared/logger';
+
 export type Request<T> = {
   payload?: T;
 }
@@ -8,6 +10,8 @@ export type Response<T> = {
 }
 
 export default abstract class Controller<DTO> {
+  protected readonly _logger: AppLogger = logger;
+
   public abstract handle<T extends DTO>(request: Request<T>): Promise<any>;
 
   protected static badRequest<T>(payload?: T): Response<T> {

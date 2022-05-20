@@ -12,7 +12,7 @@ export default class LoginController extends Controller<LoginDTO> {
     this._loginService = loginService;
   }
 
-  public async handle<T extends LoginDTO>(request: Request<T>): Promise<any> {
+  public async handle<T extends LoginDTO>(request: Request<T>) {
     try {
       const login = await this._loginService.execute(request.payload as LoginDTO);
 
@@ -28,14 +28,14 @@ export default class LoginController extends Controller<LoginDTO> {
           case 'TypeError':
             return LoginController.badRequest<string>(message);
           default: {
-            // TODO: implement logging strategy
+            this._logger.error(login.error as Error);
             return LoginController.internalServerError();
           }
         }
       }
       return LoginController.ok<string>(login.value as string);
     } catch (error) {
-      // TODO: implement logging strategy
+      this._logger.error(error as Error);
       return LoginController.internalServerError();
     }
   }

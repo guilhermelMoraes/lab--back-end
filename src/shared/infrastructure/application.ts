@@ -1,3 +1,4 @@
+import { logger } from '@shared/logger';
 import cors from 'cors';
 import express, { Application } from 'express';
 import router from './router';
@@ -13,8 +14,7 @@ application.use(cors({
 application.use('/', router);
 
 application.listen(HTTP_SERVER_PORT, (): void => {
-  // TODO: implement logging strategy
-  console.log(`[Server] Server is running on port ${HTTP_SERVER_PORT}`);
+  logger.info<string>(`Server - Running on port ${HTTP_SERVER_PORT}`);
 });
 
 export default application;

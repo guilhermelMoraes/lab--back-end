@@ -1,4 +1,5 @@
 /* eslint-disable import/first */
+import { logger } from '@shared/logger';
 import { config } from 'dotenv';
 import http from 'http';
 
@@ -15,11 +16,9 @@ async function connectToDatabase(): Promise<void> {
     const dbConnection = await postgresDataSource.initialize();
     _databaseConnectionOpen = dbConnection.isInitialized;
 
-    // TODO: implement logging strategy
-    console.log('[Database] Database up and running');
+    logger.info<string>('Database - up and running');
   } catch (error) {
-    // TODO: implement logging strategy
-    console.error(error);
+    logger.error(error as Error);
     _databaseConnectionOpen = false;
   }
 }

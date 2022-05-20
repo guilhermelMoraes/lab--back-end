@@ -1,3 +1,4 @@
+import { logger } from '@shared/logger';
 import { createTransport, SentMessageInfo } from 'nodemailer';
 import MailerService, { VerificationProps } from '../email-service';
 
@@ -43,12 +44,12 @@ export default class NodeMailer implements MailerService {
       html: NodeMailer.craftVerificationMessage(props),
     }, (error: Error | null, messageInfo: SentMessageInfo) => {
       if (error) {
-        // TODO: implement logging strategy
-        console.error(error);
+        logger.error(error);
       }
 
-      // TODO: implement logging strategy
-      console.log(messageInfo);
+      logger.info<string>(`Mailer service - Message ID: ${messageInfo.messageId}
+        Envelope: ${JSON.stringify(messageInfo.envelope)}
+      `);
     });
   }
 }
