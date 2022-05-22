@@ -9,7 +9,7 @@
     "test": "jest - --findRelatedTests",
     "test:ci": "jest",
     "test:dev": "jest --watch --verbose",
-    "start:dev": "nodemon | pino-pretty -t 'dd/mm/yyyy hh:mm:ss'",
+    "start:dev": "nodemon",
     "compile": "rm -rf ./dist && tsc"
   },
   "repository": {
