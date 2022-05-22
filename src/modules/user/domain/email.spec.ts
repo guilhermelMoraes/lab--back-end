@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, import/no-extraneous-dependencies */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import faker from '@faker-js/faker';
 import { Result } from '../../../shared/utils';
 import Email from './email';

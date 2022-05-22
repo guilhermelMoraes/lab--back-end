@@ -65,6 +65,7 @@
     "no-redeclare": "off",
     "@typescript-eslint/no-redeclare": [
       "error"
-    ]
+    ],
+    "import/no-extraneous-dependencies": "off"
   }
 }
