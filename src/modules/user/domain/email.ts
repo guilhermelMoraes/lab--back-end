@@ -13,7 +13,7 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  public static validateEmail(email: string): Result<string> | Result<Error> {
+  public static validateEmail(email: unknown): Result<string> | Result<Error> {
     if (TypeGuards.isString(email)) {
       if (!this.VALID_EMAIL.test(email)) {
         return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
@@ -25,12 +25,14 @@ export default class Email extends ValueObject<EmailProperties> {
     return Result.fail<TypeError>(new TypeError(`E-mail expect a string, but got ${typeof email}`));
   }
 
-  public static create(email: any): Result<Email> | Result<Error> {
+  public static create(email: unknown): Result<Email> | Result<Error> {
     const isEmailValid = this.validateEmail(email);
     if (isEmailValid.isFailure) {
       return Result.fail<Error>(isEmailValid.error as Error);
     }
 
-    return Result.ok<Email>(new Email({ email }));
+    return Result.ok<Email>(new Email({
+      email: isEmailValid.value as string,
+    }));
   }
 }
