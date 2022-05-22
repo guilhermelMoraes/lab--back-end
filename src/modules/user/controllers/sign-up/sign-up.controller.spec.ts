@@ -89,7 +89,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'Senha deve ter no mínimo 8 e no máximo 30 caracteres. Senha atual com 4 caracteres',
+      payload: 'Password should have at least 8 characters and max 30. Got 4 charactersPassword should have at least 8 characters and a max of 30. Got 4 chars',
     });
   });
 
@@ -124,7 +124,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 409,
-      payload: 'Senha é diferente da confirmação: testing-123 e test-123 são diferentes',
+      payload: 'Password and confirmation don\'t match',
     });
   });
 

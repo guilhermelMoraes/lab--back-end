@@ -31,7 +31,7 @@ export default class Password extends ValueObject<Hash> {
       const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
       if (password !== passwordConfirmation) {
         return Result.fail<PasswordMatchConfirmationError>(
-          new PasswordMatchConfirmationError(password, passwordConfirmation),
+          new PasswordMatchConfirmationError(),
         );
       }
 

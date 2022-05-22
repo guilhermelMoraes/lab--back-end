@@ -1,44 +1,62 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import faker from '@faker-js/faker';
 import { Result } from '../../../shared/utils';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 import Password from './password';
 
-jest.mock('bcrypt', () => ({
-  hash: () => 'hashed-password',
-}));
+describe('Password', () => {
+  it('Should return an error if one of the properties have an invalid data type', async () => {
+    const invalidPassword = await Password.create({
+      // @ts-ignore
+      password: undefined,
+      passwordConfirmation: faker.internet.password(),
+    });
 
-describe('Value object: password', () => {
-  it('"bad-pas" password should return an error if confirmation is different', async () => {
-    const invalidPass = {
-      password: 'password',
-      passwordConfirmation: 'password-confirmation',
-    };
-
-    const sut = await Password.create(invalidPass);
-    expect(sut).toEqual(Result.fail<PasswordMatchConfirmationError>(
-      new PasswordMatchConfirmationError(invalidPass.password, invalidPass.passwordConfirmation),
-    ));
+    expect(invalidPassword).toEqual(Result.fail<TypeError>(new TypeError('Expect to receive a string for password and confirmation')));
   });
 
-  it('should return an error if the password length is less than 8 chars', async () => {
-    const invalidPass = {
-      password: '0123456',
-      passwordConfirmation: '0123456',
-    };
+  it('Should return an error if password and confirmation are different', async () => {
+    const password = faker.internet.password();
+    const passwordConfirmation = faker.internet.password();
 
-    const sut = await Password.create(invalidPass);
-    expect(sut).toEqual(Result.fail<PasswordLengthError>(
-      new PasswordLengthError(invalidPass.password.length),
-    ));
+    const invalidPassword = await Password.create({
+      password,
+      passwordConfirmation,
+    });
+
+    expect(invalidPassword)
+      .toEqual(Result.fail<PasswordMatchConfirmationError>(new PasswordMatchConfirmationError()));
   });
 
-  it('should return a successful result', async () => {
-    const validPassword = {
-      password: 'goodPassword_202#!',
-      passwordConfirmation: 'goodPassword_202#!',
-    };
+  it('Should return an error if password exceeds allowed length', async () => {
+    const hugePass = faker.internet.password(31);
+    const shortPass = faker.internet.password(7);
 
-    const sut = await Password.create(validPassword);
-    const { hash } = (sut.value as Password).properties;
-    expect(hash).toBe('hashed-password');
+    const hugePassword = await Password.create({
+      password: hugePass,
+      passwordConfirmation: hugePass,
+    });
+
+    const shortPassword = await Password.create({
+      password: shortPass,
+      passwordConfirmation: shortPass,
+    });
+
+    expect(hugePassword)
+      .toEqual(Result.fail<PasswordLengthError>(new PasswordLengthError(hugePass.length)));
+
+    expect(shortPassword)
+      .toEqual(Result.fail<PasswordLengthError>(new PasswordLengthError(shortPass.length)));
+  });
+
+  it('Should return an successful result if a valid password is provided', async () => {
+    const validPass = faker.internet.password(16);
+
+    const validPassword = await Password.create({
+      password: validPass,
+      passwordConfirmation: validPass,
+    });
+
+    expect(validPassword.value).toBeInstanceOf(Password);
   });
 });
