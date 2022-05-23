@@ -31,7 +31,7 @@ export default class Login {
     const {
       hash, userId,
       username, isEmailVerified,
-    } = userProps as UserProperties;
+    } = userProps;
     const passwordMatch = await Password.compare(loginDTO.password, hash);
     if (passwordMatch.isFailure) {
       return Result.fail<Error>(passwordMatch.error as Error);
