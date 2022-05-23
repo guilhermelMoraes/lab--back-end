@@ -1,5 +1,5 @@
 import Pino from 'pino';
-import Logger from '../logger';
+import Logger from './logger';
 
 // TODO: once in production, this config might throw. Pino pretty is a dev dep. only
 const log = Pino({
