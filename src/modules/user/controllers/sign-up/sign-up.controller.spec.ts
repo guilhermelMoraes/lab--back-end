@@ -71,7 +71,7 @@ describe('Controller: sign-up', () => {
 
     expect(response).toEqual({
       statusCode: 400,
-      payload: 'Nome de usuário deve ter no mínimo 4 e no máximo 100 caracteres. Recebido(s) 2 caracter(es)',
+      payload: 'Username should have at least 4 and max 100 chars. Got 2 chars',
     });
   });
 

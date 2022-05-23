@@ -14,8 +14,8 @@ export default class Username extends ValueObject<UsernameProperty> {
     super(username);
   }
 
-  private static validateUsername(username: string):
-    Result<Error> | Result<Username> {
+  private static validateUsername(username: unknown):
+    Result<Error> | Result<string> {
     if (TypeGuards.isString(username)) {
       const trimmedUsername: number = username.trim().length;
 
@@ -25,19 +25,21 @@ export default class Username extends ValueObject<UsernameProperty> {
         );
       }
 
-      return Result.ok<Username>();
+      return Result.ok<string>(username);
     }
 
     return Result.fail<TypeError>(new TypeError(`Username expects a string but got ${typeof username}`));
   }
 
-  public static create(username: string): Result<UsernameLengthError> | Result<Username> {
+  public static create(username: unknown): Result<UsernameLengthError> | Result<Username> {
     const usernameIsValid = this.validateUsername(username);
 
     if (usernameIsValid.isFailure) {
       return Result.fail<UsernameLengthError>(usernameIsValid.error as Error);
     }
 
-    return Result.ok<Username>(new Username({ username }));
+    return Result.ok<Username>(new Username({
+      username: usernameIsValid.value as string,
+    }));
   }
 }
