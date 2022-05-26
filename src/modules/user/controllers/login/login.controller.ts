@@ -1,6 +1,7 @@
 import {
   Controller,
   Request,
+  Response,
 } from '@shared/http';
 import { LoginDTO, LoginService } from '@user/services';
 
@@ -12,7 +13,7 @@ export default class LoginController extends Controller<LoginDTO> {
     this._loginService = loginService;
   }
 
-  public async handle<T extends LoginDTO>(request: Request<T>) {
+  public async handle<T extends LoginDTO>(request: Request<T>): Promise<Response<string>> {
     try {
       const login = await this._loginService.execute(request.payload as LoginDTO);
 
