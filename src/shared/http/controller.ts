@@ -1,7 +1,12 @@
 import { AppLogger, logger } from '@shared/logger';
 
+type QueryParams = {
+  [key: string]: unknown;
+}
+
 export type Request<T> = {
   payload?: T;
+  queryParams?: QueryParams;
 }
 
 export type Response<T> = {
@@ -12,7 +17,7 @@ export type Response<T> = {
 export default abstract class Controller<DTO> {
   protected readonly _logger: AppLogger = logger;
 
-  public abstract handle<T extends DTO>(request: Request<T>): Promise<any>;
+  public abstract handle<T extends DTO>(request: Request<T>): Promise<Response<unknown>>;
 
   protected static badRequest<T>(payload?: T): Response<T> {
     return {
