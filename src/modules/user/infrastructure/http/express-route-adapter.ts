@@ -1,13 +1,14 @@
-import { Request as ExpressReq, RequestHandler, Response as ExpressRes } from 'express';
 import Controller, { Request, Response } from '@shared/http/controller';
+import { Request as ExpressReq, RequestHandler, Response as ExpressRes } from 'express';
 
-function route<T>(controller: Controller<T>): RequestHandler {
+function expressRouteAdapter<T>(controller: Controller<T>): RequestHandler {
   return async (request: ExpressReq, response: ExpressRes): Promise<void> => {
     const req: Request<T> = {
       payload: request.body,
+      queryParams: request.query,
     };
 
-    const res: Response<any> = await controller.handle(req);
+    const res: Response<unknown> = await controller.handle(req);
     if (res?.payload) {
       response.status(res.statusCode).send(res.payload);
       return;
@@ -17,4 +18,4 @@ function route<T>(controller: Controller<T>): RequestHandler {
   };
 }
 
-export default route;
+export default expressRouteAdapter;

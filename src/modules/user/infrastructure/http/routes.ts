@@ -1,12 +1,11 @@
-import express, { Router } from 'express';
-
 import { loginController, signUpController } from '@user/controllers';
 import { LoginDTO, SignUpDTO } from '@user/services';
-import route from './express-route-adapter';
+import express, { Router } from 'express';
+import expressRouteAdapter from './express-route-adapter';
 
-const router: Router = express.Router();
+const routes: Router = express.Router();
 
-router.post('/sign-up', route<SignUpDTO>(signUpController));
-router.post('/login', route<LoginDTO>(loginController));
+routes.post('/sign-up', expressRouteAdapter<SignUpDTO>(signUpController));
+routes.post('/login', expressRouteAdapter<LoginDTO>(loginController));
 
-export default router;
+export default routes;
