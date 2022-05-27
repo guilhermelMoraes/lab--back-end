@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import faker from '@faker-js/faker';
-import { Result } from '../../../shared/utils';
 import Email from './email';
 import { NonStandardEmailError } from './errors';
 
@@ -9,7 +8,7 @@ describe('E-mail', () => {
     const invalidEmail = faker.animal.bear();
     const email = Email.create(invalidEmail);
     expect(email)
-      .toEqual(Result.fail<NonStandardEmailError>(new NonStandardEmailError(invalidEmail)));
+      .toEqual(new NonStandardEmailError(invalidEmail));
   });
 
   it('Should return an error if the wrong type of data was provided', () => {
@@ -18,8 +17,7 @@ describe('E-mail', () => {
 
     expect(email)
       .toEqual(
-        // @ts-ignore
-        Result.fail<TypeError>(new TypeError('E-mail expect a string, but got boolean')),
+        new TypeError('E-mail expect a string, but got boolean'),
       );
   });
 
@@ -27,6 +25,6 @@ describe('E-mail', () => {
     const validEmail = faker.internet.email();
     const email = Email.create(validEmail);
 
-    expect(email.value).toBeInstanceOf(Email);
+    expect(email).toBeInstanceOf(Email);
   });
 });

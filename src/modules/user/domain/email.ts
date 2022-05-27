@@ -1,4 +1,4 @@
-import { Result, TypeGuards } from '@shared/utils';
+import { TypeGuards } from '@shared/utils';
 import { ValueObject } from '@shared/domain';
 import { NonStandardEmailError } from './errors';
 
@@ -13,26 +13,26 @@ export default class Email extends ValueObject<EmailProperties> {
     super(email);
   }
 
-  public static validateEmail(email: unknown): Result<string> | Result<Error> {
+  public static validateEmail(email: unknown): string | Error {
     if (TypeGuards.isString(email)) {
       if (!this.VALID_EMAIL.test(email)) {
-        return Result.fail<NonStandardEmailError>(new NonStandardEmailError(email));
+        return new NonStandardEmailError(email);
       }
 
-      return Result.ok<string>(email);
+      return email;
     }
 
-    return Result.fail<TypeError>(new TypeError(`E-mail expect a string, but got ${typeof email}`));
+    return new TypeError(`E-mail expect a string, but got ${typeof email}`);
   }
 
-  public static create(email: unknown): Result<Email> | Result<Error> {
+  public static create(email: unknown): Email | Error {
     const isEmailValid = this.validateEmail(email);
-    if (isEmailValid.isFailure) {
-      return Result.fail<Error>(isEmailValid.error as Error);
+    if (TypeGuards.isError(isEmailValid)) {
+      return isEmailValid;
     }
 
-    return Result.ok<Email>(new Email({
-      email: isEmailValid.value as string,
-    }));
+    return new Email({
+      email: isEmailValid,
+    });
   }
 }
