@@ -1,5 +1,5 @@
 import { ValueObject } from '@shared/domain';
-import { Result, TypeGuards } from '@shared/utils';
+import { TypeGuards } from '@shared/utils';
 import { UsernameLengthError } from './errors';
 
 type UsernameProperty = {
@@ -14,32 +14,29 @@ export default class Username extends ValueObject<UsernameProperty> {
     super(username);
   }
 
-  private static validateUsername(username: unknown):
-    Result<Error> | Result<string> {
+  private static validateUsername(username: unknown): Error | string {
     if (TypeGuards.isString(username)) {
       const trimmedUsername: number = username.trim().length;
 
       if (trimmedUsername < this._MIN_LENGTH || trimmedUsername > this._MAX_LENGTH) {
-        return Result.fail<UsernameLengthError>(
-          new UsernameLengthError(this._MIN_LENGTH, this._MAX_LENGTH, trimmedUsername),
-        );
+        return new UsernameLengthError(this._MIN_LENGTH, this._MAX_LENGTH, trimmedUsername);
       }
 
-      return Result.ok<string>(username);
+      return username;
     }
 
-    return Result.fail<TypeError>(new TypeError(`Username expects a string but got ${typeof username}`));
+    return new TypeError(`Username expects a string but got ${typeof username}`);
   }
 
-  public static create(username: unknown): Result<UsernameLengthError> | Result<Username> {
+  public static create(username: unknown): UsernameLengthError | Username {
     const usernameIsValid = this.validateUsername(username);
 
-    if (usernameIsValid.isFailure) {
-      return Result.fail<UsernameLengthError>(usernameIsValid.error as Error);
+    if (TypeGuards.isError(usernameIsValid)) {
+      return usernameIsValid;
     }
 
-    return Result.ok<Username>(new Username({
-      username: usernameIsValid.value as string,
-    }));
+    return new Username({
+      username: usernameIsValid,
+    });
   }
 }
