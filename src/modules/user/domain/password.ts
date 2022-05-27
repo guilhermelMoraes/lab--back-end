@@ -1,6 +1,6 @@
 import { ValueObject } from '@shared/domain';
 import { logger } from '@shared/logger';
-import { Result, TypeGuards } from '@shared/utils';
+import { TypeGuards } from '@shared/utils';
 import bcrypt from 'bcrypt';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 
@@ -22,90 +22,77 @@ export default class Password extends ValueObject<Hash> {
     super(hash);
   }
 
-  private static validatePassword(passwordCreationProps: PasswordCreationProps):
-    Result<Error> | Result<Password> {
-    if (
-      TypeGuards.isString(passwordCreationProps.password)
-      && TypeGuards.isString(passwordCreationProps.passwordConfirmation)
-    ) {
-      const { password, passwordConfirmation } = this.trimProperties(passwordCreationProps);
+  private static validatePassword(props: PasswordCreationProps): true | Error {
+    if (TypeGuards.isString([props.password, props.passwordConfirmation])) {
+      const { password, passwordConfirmation } = this.trimProperties(props);
       if (password !== passwordConfirmation) {
-        return Result.fail<PasswordMatchConfirmationError>(
-          new PasswordMatchConfirmationError(),
-        );
+        return new PasswordMatchConfirmationError();
       }
 
       if (
-        password.length < this.MIN_PASSWORD_LENGTH
-        || password.length > this.MAX_PASSWORD_LENGTH
+        password.length < this.MIN_PASSWORD_LENGTH || password.length > this.MAX_PASSWORD_LENGTH
       ) {
-        return Result.fail<PasswordLengthError>(
-          new PasswordLengthError(password.length),
-        );
+        return new PasswordLengthError(password.length);
       }
 
-      return Result.ok<Password>();
+      return true;
     }
 
-    return Result.fail<TypeError>(new TypeError('Expect to receive a string for password and confirmation'));
+    return new TypeError('Expect to receive a string for password and confirmation');
   }
 
-  private static trimProperties(properties: PasswordCreationProps): PasswordCreationProps {
-    const { password, passwordConfirmation } = properties;
+  private static trimProperties(props: PasswordCreationProps): PasswordCreationProps {
+    const { password, passwordConfirmation } = props;
     return {
       password: password.trim(),
       passwordConfirmation: passwordConfirmation.trim(),
     };
   }
 
-  private static async hashPassword(rawPassword: string) {
+  private static async hashPassword(rawPassword: string): Promise<string | Error> {
     try {
-      const hash = await bcrypt.hash(rawPassword, this.SALT_ROUNDS);
-      return Result.ok<string>(hash);
+      return await bcrypt.hash(rawPassword, this.SALT_ROUNDS);
     } catch (bcryptError) {
       const error = (bcryptError as Error);
       const errorMessage = `${error.message} | Attempt to use ${rawPassword} as a password`;
       error.message = errorMessage;
       logger.error(error);
-      return Result.fail<Error>(error);
+      return error;
     }
   }
 
   public static async compare(rawPassword: unknown, hashedPassword: string):
-    Promise<Result<boolean> | Result<Error>> {
+    Promise<boolean | Error> {
     try {
       if (TypeGuards.isString(rawPassword)) {
         const passwordMatch: boolean = await bcrypt.compare(rawPassword, hashedPassword);
-        return Result.ok<boolean>(passwordMatch);
+        return passwordMatch;
       }
 
-      return Result.fail<TypeError>(new TypeError(`Expect a string for password but got ${typeof rawPassword}`));
+      return new TypeError(`Expect a string for password but got ${typeof rawPassword}`);
     } catch (bcryptError) {
       logger.error(bcryptError as Error);
-      return Result.fail<Error>(bcryptError as Error);
+      return bcryptError as Error;
     }
   }
 
-  public static async create(passwordCreationProps: PasswordCreationProps):
-    Promise<Result<Password> | Result<Error>> {
-    const { password, passwordConfirmation } = passwordCreationProps;
+  public static async create(props: PasswordCreationProps) {
+    const { password, passwordConfirmation } = props;
 
     const isPasswordValid = this.validatePassword({
       password,
       passwordConfirmation,
     });
 
-    if (isPasswordValid.isFailure) {
-      return Result.fail<Error>(isPasswordValid.error as Error);
+    if (TypeGuards.isError(isPasswordValid)) {
+      return isPasswordValid;
     }
 
-    const hashOrError = await this.hashPassword(passwordCreationProps.password);
-    if (hashOrError.isFailure) {
-      return Result.fail<Error>(hashOrError.error as Error);
+    const hashOrError = await this.hashPassword(props.password);
+    if (TypeGuards.isError(hashOrError)) {
+      return hashOrError;
     }
 
-    const { value: hash } = hashOrError as Result<string>;
-
-    return Result.ok<Password>(new Password({ hash }));
+    return new Password({ hash: hashOrError });
   }
 }

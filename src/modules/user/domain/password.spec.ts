@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import faker from '@faker-js/faker';
-import { Result } from '../../../shared/utils';
 import { PasswordLengthError, PasswordMatchConfirmationError } from './errors';
 import Password from './password';
 
@@ -12,12 +11,12 @@ describe('Password', () => {
       passwordConfirmation: faker.internet.password(),
     });
 
-    expect(invalidPassword).toEqual(Result.fail<TypeError>(new TypeError('Expect to receive a string for password and confirmation')));
+    expect(invalidPassword).toEqual(new TypeError('Expect to receive a string for password and confirmation'));
   });
 
   it('Should return an error if password and confirmation are different', async () => {
-    const password = faker.internet.password();
-    const passwordConfirmation = faker.internet.password();
+    const password = faker.internet.password(12);
+    const passwordConfirmation = faker.internet.password(14);
 
     const invalidPassword = await Password.create({
       password,
@@ -25,7 +24,7 @@ describe('Password', () => {
     });
 
     expect(invalidPassword)
-      .toEqual(Result.fail<PasswordMatchConfirmationError>(new PasswordMatchConfirmationError()));
+      .toEqual(new PasswordMatchConfirmationError());
   });
 
   it('Should return an error if password exceeds allowed length', async () => {
@@ -43,10 +42,10 @@ describe('Password', () => {
     });
 
     expect(hugePassword)
-      .toEqual(Result.fail<PasswordLengthError>(new PasswordLengthError(hugePass.length)));
+      .toEqual(new PasswordLengthError(hugePass.length));
 
     expect(shortPassword)
-      .toEqual(Result.fail<PasswordLengthError>(new PasswordLengthError(shortPass.length)));
+      .toEqual(new PasswordLengthError(shortPass.length));
   });
 
   it('Should return an successful result if a valid password is provided', async () => {
@@ -57,6 +56,6 @@ describe('Password', () => {
       passwordConfirmation: validPass,
     });
 
-    expect(validPassword.value).toBeInstanceOf(Password);
+    expect(validPassword).toBeInstanceOf(Password);
   });
 });
