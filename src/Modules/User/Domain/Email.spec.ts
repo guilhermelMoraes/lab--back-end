@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import faker from '@faker-js/faker';
 import Email from './Email';
-import InvalidEmailError from './InvalidEmailError';
+import InvalidEmailError from './Errors/InvalidEmail';
 
 describe('E-mail', () => {
   it('Should return an error when an invalid e-mail is provided', () => {

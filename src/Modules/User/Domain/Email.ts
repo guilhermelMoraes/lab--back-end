@@ -1,6 +1,6 @@
 import { ValueObject } from '@shared/domain';
 import { TypeGuards } from '@shared/utils';
-import InvalidEmailError from './InvalidEmailError';
+import InvalidEmailError from './Errors/InvalidEmail';
 
 type EmailProps = {
   email: string;
