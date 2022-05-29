@@ -1,19 +1,14 @@
 import { ValueObject } from '@shared/domain';
-import { TypeGuards } from '@shared/utils';
-import InvalidEmailError from './Errors/InvalidEmail';
+import { TypeGuards, ValidationResponse } from '@shared/utils';
+import { InvalidEmailError } from './Errors';
 
 type EmailProps = {
   email: string;
 }
 
-type ValidationResponse = {
-  error?: Error;
-  succeed: boolean;
-}
-
 export default class Email extends ValueObject<EmailProps> {
-  private constructor(email: EmailProps) {
-    super(email);
+  private constructor(emailProps: EmailProps) {
+    super(emailProps);
   }
 
   private static readonly VALID_EMAIL: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
