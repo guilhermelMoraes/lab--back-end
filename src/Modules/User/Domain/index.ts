@@ -1,2 +1,3 @@
 export { default as Email } from './Email';
-export { default as InvalidEmailError } from './Errors/InvalidEmail';
+export { default as FullName } from './FullName';
+export * from './Errors';
