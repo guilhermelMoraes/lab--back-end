@@ -39,6 +39,6 @@ export default class Email extends ValueObject<EmailProps> {
       return new Email({ email });
     }
 
-    return emailValidation.error as Error;
+    return emailValidation.error;
   }
 }

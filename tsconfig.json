@@ -18,7 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["src/shared/*"],
-      "@user/*": ["src/modules/user/*"]
+      "@user/*": ["src/Modules/User/*"]
     }
   }
 }

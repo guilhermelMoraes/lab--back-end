@@ -1,6 +1,6 @@
 import { ValueObject } from '@shared/domain';
 import { TypeGuards, ValidationResponse } from '@shared/utils';
-import { FullNameLengthError } from './Errors';
+import { LengthError } from './Errors';
 
 type FullNameProps = {
   firstName: string;
@@ -8,8 +8,8 @@ type FullNameProps = {
 }
 
 export default class FullName extends ValueObject<FullNameProps> {
-  private static readonly MIN_FULL_NAME_LENGTH = 4;
-  private static readonly MAX_FULL_NAME_LENGTH = 45;
+  private static readonly MIN_LENGTH = 4;
+  private static readonly MAX_LENGTH = 45;
 
   private constructor(fullNameProps: FullNameProps) {
     super(fullNameProps);
@@ -19,14 +19,14 @@ export default class FullName extends ValueObject<FullNameProps> {
     return name.trim().length;
   }
 
-  private static validate(fnProps: FullNameProps): ValidationResponse {
-    for (const [name, value] of Object.entries(fnProps)) {
+  private static validate(props: FullNameProps): ValidationResponse {
+    for (const [name, value] of Object.entries(props)) {
       if (TypeGuards.isString(value)) {
         const nameLength = this.trimmedNameLength(value);
-        if (nameLength < this.MIN_FULL_NAME_LENGTH || nameLength > this.MAX_FULL_NAME_LENGTH) {
+        if (nameLength < this.MIN_LENGTH || nameLength > this.MAX_LENGTH) {
           return {
             succeed: false,
-            error: new FullNameLengthError(name, nameLength),
+            error: new LengthError(name, nameLength),
           };
         }
       } else {
@@ -49,6 +49,6 @@ export default class FullName extends ValueObject<FullNameProps> {
       });
     }
 
-    return fullNameValidation.error as Error;
+    return fullNameValidation.error;
   }
 }

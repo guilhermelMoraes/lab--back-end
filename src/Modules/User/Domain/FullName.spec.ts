@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import faker from '@faker-js/faker';
-import { FullNameLengthError } from './Errors';
+import { LengthError } from './Errors';
 import FullName from './FullName';
 
 describe('Full name', () => {
@@ -10,7 +10,7 @@ describe('Full name', () => {
       surname: faker.datatype.string(6),
     });
 
-    expect(sut).toEqual(new FullNameLengthError('firstName', 3));
+    expect(sut).toEqual(new LengthError('firstName', 3));
   });
 
   it('Should return an error when one of the names has a length bigger than 45', () => {
@@ -19,7 +19,7 @@ describe('Full name', () => {
       surname: faker.datatype.string(46),
     });
 
-    expect(sut).toEqual(new FullNameLengthError('surname', 46));
+    expect(sut).toEqual(new LengthError('surname', 46));
   });
 
   it('Should return an error when an empty string is provided as a name', () => {
@@ -28,7 +28,7 @@ describe('Full name', () => {
       surname: faker.name.lastName(),
     });
 
-    expect(sut).toEqual(new FullNameLengthError('firstName', 0));
+    expect(sut).toEqual(new LengthError('firstName', 0));
   });
 
   it('Should return an error when a different data type is supplied as a name', () => {
