@@ -1,5 +1,5 @@
-import { ValueObject } from '@shared/domain';
-import { TypeGuards, ValidationResponse } from '@shared/utils';
+import { ValueObject } from 'src/Shared/Domain';
+import { TypeGuards, ValidationResponse } from 'src/Shared/Utils';
 import { InvalidEmailError } from './Errors';
 
 type EmailProps = {

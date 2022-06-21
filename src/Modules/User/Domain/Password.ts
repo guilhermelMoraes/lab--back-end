@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { logger } from '@shared/logger';
-import { ValueObject } from '@shared/domain';
-import { TypeGuards, ValidationResponse } from '@shared/utils';
+import { logger } from 'src/Shared/Logger';
+import { ValueObject } from 'src/Shared/Domain';
+import { TypeGuards, ValidationResponse } from 'src/Shared/Utils';
 import { LengthError, PasswordMatchConfirmationError } from './Errors';
 
 type PasswordProps = {

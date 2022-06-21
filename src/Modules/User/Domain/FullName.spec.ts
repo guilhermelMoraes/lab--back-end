@@ -4,6 +4,12 @@ import { LengthError } from './Errors';
 import FullName from './FullName';
 
 describe('Full name', () => {
+  it('Should return an error when no data is provided', () => {
+    // @ts-ignore
+    const sut = FullName.create();
+    expect(sut).toEqual(new TypeError('fullName expects an object with firstName and surname as strings'));
+  });
+
   it('Should return an error when one of the names has a length smaller than 4', () => {
     const sut = FullName.create({
       firstName: faker.datatype.string(3),
@@ -29,16 +35,6 @@ describe('Full name', () => {
     });
 
     expect(sut).toEqual(new LengthError('firstName', 0));
-  });
-
-  it('Should return an error when a different data type is supplied as a name', () => {
-    const sut = FullName.create({
-      firstName: faker.name.firstName(),
-      // @ts-ignore
-      surname: faker.datatype.boolean(),
-    });
-
-    expect(sut).toEqual(new TypeError('surname expects a string but got boolean'));
   });
 
   it('Should return a username when a valid first and surname are supplied', () => {

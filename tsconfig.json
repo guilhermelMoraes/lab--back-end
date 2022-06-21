@@ -17,7 +17,7 @@
     "noEmitOnError": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["src/shared/*"],
+      "@shared/*": ["src/Shared/*"],
       "@user/*": ["src/Modules/User/*"]
     }
   }
